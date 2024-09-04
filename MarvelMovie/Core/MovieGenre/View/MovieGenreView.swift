@@ -23,6 +23,7 @@ struct MovieGenreView: View {
                         singleGenreView(genre: singleGenre.name, isSelect: singleGenre.id == selected)
                             .id(selected)
                             .onTapGesture {
+                                
                                 selected = singleGenre.id
                                 movieGenreViewModel.getFilterdFilms(genreId: singleGenre.id)
                                 
