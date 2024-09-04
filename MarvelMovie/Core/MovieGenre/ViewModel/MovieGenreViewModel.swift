@@ -15,10 +15,10 @@ class MovieGenreViewModel:ObservableObject{
     
     init() {
         self.getMovieGenre = MovieGenreService(networkMager: networkManager)
-        mapMovieGenre()
+        Task{ await mapMovieGenre() }
     }
     
-    func mapMovieGenre(){
+    func mapMovieGenre()async{
         
         Task{ @MainActor [weak self] in
             

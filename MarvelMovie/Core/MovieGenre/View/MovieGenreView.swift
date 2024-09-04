@@ -18,17 +18,18 @@ struct MovieGenreView: View {
                 HStack{
                     ForEach(movieGenre?.genres ?? [],id:\.id){ singleGenre in
                         singleGenreView(genre: singleGenre.name, isSelect: singleGenre.id == selected)
+                            .id(selected)
                             .onTapGesture {
                                 selected = singleGenre.id
                             }
-                            .onAppear(){
-                                selected = singleGenre.id
-                            }
+//                            .onAppear(){
+//                                selected = singleGenre.id
+//                            }
                             .padding()
                         
                     }
                 }
-            }
+            }.scrollIndicators(.hidden)
         
         }.onReceive(movieGenreViewModel.$genreData, perform: { newValues in
             movieGenre = newValues
@@ -39,10 +40,15 @@ struct MovieGenreView: View {
 }
 extension MovieGenreView{
     private func singleGenreView(genre:String,isSelect:Bool)->some View{
-        VStack{
+        HStack{
+            if isSelect{
+               Rectangle()
+                    .foregroundStyle(Color.red)
+                    .frame(width: 4,height: 20)
+            }
             Text(genre)
                 .font(.system(size: 16,weight: .medium,design: .rounded))
-                .foregroundStyle(isSelect ? Color.yellow : Color.white)
+                .foregroundStyle(isSelect ? Color.white : Color.gray)
         }
     }
 }

@@ -14,10 +14,6 @@ struct MovieDashboardView: View {
     @State private var tvSeriesData:[FilmCardDataModel] = []
     private let placeHolderData:MoviePlaceholder = MoviePlaceholder()
     @State private var test:Bool = false
-    let columns = [
-            GridItem(.flexible()), // First column
-            GridItem(.flexible())  // Second column
-        ]
     var body: some View {
         VStack(alignment: .leading){
           ProfileSection()
@@ -25,14 +21,26 @@ struct MovieDashboardView: View {
                 .frame(maxWidth: .infinity)
             MovieGenreView()
             List{
+                Section(section: "Movies")
+                    .listRowBackground(Color.clear)
                 movieSection
-                tvSerSection
+                Section(section: "TV Shows")
+                    .listRowBackground(Color.clear)
+                tvSeriesSection
             }.scrollIndicators(.never)
                 .listStyle(.plain)
                
             
-        }.background(Color.black.opacity(0.98)
-            .ignoresSafeArea())
+        }.background(
+            ZStack{ 
+               
+                Image("background")
+                    .resizable()
+                    .ignoresSafeArea()
+                Color.black.opacity(0.85)
+                .ignoresSafeArea()
+//
+            })
         .navigationDestination(isPresented: $test) {
             EmptyView()
         }
@@ -65,7 +73,7 @@ extension MovieDashboardView{
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
     }
-    private var tvSerSection:some View{
+    private var tvSeriesSection:some View{
             VStack{
                 ScrollView(.horizontal){
                     LazyHStack{
@@ -89,6 +97,14 @@ extension MovieDashboardView{
             })
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
+    }
+    private func Section(section:String)->some View{
+        VStack{
+            Text(section)
+                .foregroundStyle(Color.white)
+                .font(.title)
+                .fontWeight(.bold)
+        }
     }
 }
 #Preview {

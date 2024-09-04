@@ -21,6 +21,7 @@ class DashboardViewModel:ObservableObject{
     private let allFilmService:AllFilmService
     private let allTvSeriesService:AllTvSeriesService
     
+    
     init(){
         self.allFilmService = AllFilmService(networkmanger: networkManager)
         self.allTvSeriesService = AllTvSeriesService(networkManager: networkManager)
@@ -29,21 +30,23 @@ class DashboardViewModel:ObservableObject{
     
     func manageDataBinding(){
         viewIsLoaded = false
-        mapMovies()
-        mapTvSeries()
-        viewIsLoaded = true
+        Task{
+            await mapMovies()
+            await mapTvSeries()
+            viewIsLoaded = true
+        }
     }
     func loadMoreData(isMovie:Bool){
         if isMovie{
             moviePageNo = moviePageNo + 1
-            mapMovies()
+            Task{ await mapMovies() }
         }else{
             tvSeriesPageNo = tvSeriesPageNo + 1
-            mapTvSeries()
+            Task{ await  mapTvSeries() }
         }
     }
 
-   private func mapMovies(){
+   private func mapMovies()async{
         
         Task{ @MainActor in
           
@@ -61,7 +64,7 @@ class DashboardViewModel:ObservableObject{
             }
         }
     }
-    private func mapTvSeries(){
+    private func mapTvSeries() async{
         Task{ @MainActor in
             let tvSeriesData = await self.allTvSeriesService.donwloadAllTvSeries(pageNo: tvSeriesPageNo)
             switch tvSeriesData {
@@ -84,7 +87,9 @@ class DashboardViewModel:ObservableObject{
             voteAvarage: recivedData.voteAverage,
             pop: recivedData.popularity,
             language: recivedData.originalLanguage,
-            voteCount: recivedData.voteCount, isAdult: recivedData.adult
+            voteCount: recivedData.voteCount, 
+            isAdult: recivedData.adult,
+            genreIds: recivedData.genreIDS
         )
     }
     
@@ -96,7 +101,15 @@ class DashboardViewModel:ObservableObject{
             voteAvarage: recivedData.voteAverage,
             pop: recivedData.popularity,
             language: recivedData.originalLanguage,
-            voteCount: recivedData.voteCount, isAdult: recivedData.adult
+            voteCount: recivedData.voteCount, 
+            isAdult: recivedData.adult,
+            genreIds: recivedData.genreIDS
         )
+    }
+    
+    func filterMovieByGenreId(genreId:Int){
+      let filtedMovies = self.movieDataSet.filter({$0.genreIds.contains(genreId)})
+        self.movieDataSet = filtedMovies
+        
     }
 }
