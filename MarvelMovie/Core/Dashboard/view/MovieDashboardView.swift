@@ -19,7 +19,7 @@ struct MovieDashboardView: View {
           ProfileSection()
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity)
-            MovieGenreView()
+            MovieGenreView(dashboardViewModel: dashboardViewModel)
             List{
                 Section(section: "Movies")
                     .listRowBackground(Color.clear)

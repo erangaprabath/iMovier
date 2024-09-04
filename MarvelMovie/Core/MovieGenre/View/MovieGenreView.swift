@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct MovieGenreView: View {
-    @StateObject private var movieGenreViewModel = MovieGenreViewModel()
+    @StateObject private var movieGenreViewModel:MovieGenreViewModel
     @State private var movieGenre:MovieGenreModel? = nil
     @State private var selected:Int = 1
- 
+    init(dashboardViewModel:DashboardViewModel){
+        _movieGenreViewModel = StateObject(wrappedValue: MovieGenreViewModel(dashBoardViewModel: dashboardViewModel))
+    }
+    
     var body: some View {
         VStack{
             ScrollView(.horizontal){
@@ -21,6 +24,9 @@ struct MovieGenreView: View {
                             .id(selected)
                             .onTapGesture {
                                 selected = singleGenre.id
+                                movieGenreViewModel.getFilterdFilms(genreId: singleGenre.id)
+                                
+                                
                             }
 //                            .onAppear(){
 //                                selected = singleGenre.id
@@ -53,6 +59,4 @@ extension MovieGenreView{
     }
 }
 
-#Preview {
-    MovieGenreView()
-}
+

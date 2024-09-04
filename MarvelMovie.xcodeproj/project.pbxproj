@@ -36,6 +36,7 @@
 		52C6B9452C838CFA0081CE63 /* HandleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B9442C838CFA0081CE63 /* HandleProtocol.swift */; };
 		52C6B9492C84651D0081CE63 /* PlaceHolderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B9482C84651D0081CE63 /* PlaceHolderData.swift */; };
 		52C6B94B2C846B940081CE63 /* AllTvSeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B94A2C846B940081CE63 /* AllTvSeriesModel.swift */; };
+		846ABB912C88D85800971C63 /* GetSingleMovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ABB902C88D85800971C63 /* GetSingleMovieService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		52C6B9442C838CFA0081CE63 /* HandleProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleProtocol.swift; sourceTree = "<group>"; };
 		52C6B9482C84651D0081CE63 /* PlaceHolderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderData.swift; sourceTree = "<group>"; };
 		52C6B94A2C846B940081CE63 /* AllTvSeriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTvSeriesModel.swift; sourceTree = "<group>"; };
+		846ABB902C88D85800971C63 /* GetSingleMovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSingleMovieService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -339,6 +341,7 @@
 				5250ECC32C846D9900E8BD9E /* AllTvSeriesService.swift */,
 				5250ECCF2C84AFC900E8BD9E /* GetuserdetailsService.swift */,
 				5268C6DC2C84C6A00043BE29 /* MovieGenreService.swift */,
+				846ABB902C88D85800971C63 /* GetSingleMovieService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				5250ECC42C846D9900E8BD9E /* AllTvSeriesService.swift in Sources */,
 				5250ECC62C8470EA00E8BD9E /* FilmCardDataModel.swift in Sources */,
 				52C6B9492C84651D0081CE63 /* PlaceHolderData.swift in Sources */,
+				846ABB912C88D85800971C63 /* GetSingleMovieService.swift in Sources */,
 				52C6B9312C836BDA0081CE63 /* FilmCardView.swift in Sources */,
 				52C6B93A2C837B7B0081CE63 /* NetworkManager.swift in Sources */,
 				520405702C832D4A009B56FE /* SplashScreen.swift in Sources */,

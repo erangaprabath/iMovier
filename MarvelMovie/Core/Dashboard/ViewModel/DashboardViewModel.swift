@@ -109,7 +109,12 @@ class DashboardViewModel:ObservableObject{
     
     func filterMovieByGenreId(genreId:Int){
       let filtedMovies = self.movieDataSet.filter({$0.genreIds.contains(genreId)})
+        let filtedTvSeries = self.tvSeriesDataSet.filter({$0.genreIds.contains(genreId)})
+        if filtedMovies.isEmpty || filtedTvSeries.isEmpty{
+            loadMoreData(isMovie: true)
+        }
         self.movieDataSet = filtedMovies
+//        self.tvSeriesDataSet = filtedTvSeries
         
     }
 }

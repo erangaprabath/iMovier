@@ -12,6 +12,7 @@ enum networkEndpoint:APIProtocol{
     case getAllTvSeriesListByPage(pageNo:Int,isAdult:Bool)
     case getUserProfile(userId:Int)
     case getMovieGenre
+    case getMovieByMovieId(moiveID:Int)
     
     var baseUrl: URL{
         guard let baseUrl = URL(string:"https://api.themoviedb.org") else{ fatalError()}
@@ -20,27 +21,31 @@ enum networkEndpoint:APIProtocol{
     
     var endPoint: String{
         switch self {
-            case .getAllMovieListByPage:
-                return "/3/discover/movie"
-            case .getAllTvSeriesListByPage:
-                return "/3/discover/tv"
-            case .getUserProfile(userId: let userId):
-                return "/3/account/\(userId)"
-            case .getMovieGenre:
-                return "/3/genre/movie/list"
+        case .getAllMovieListByPage:
+            return "/3/discover/movie"
+        case .getAllTvSeriesListByPage:
+            return "/3/discover/tv"
+        case .getUserProfile(userId: let userId):
+            return "/3/account/\(userId)"
+        case .getMovieGenre:
+            return "/3/genre/movie/list"
+        case .getMovieByMovieId:
+            return "/3/"
         }
     }
     
     var requestMethod: HttpMethod{
         switch self {
-            case .getAllMovieListByPage:
-                return .get
-            case .getAllTvSeriesListByPage:
-                return .get
-            case .getUserProfile:
-                return.get
-            case .getMovieGenre:
-                return.get
+        case .getAllMovieListByPage:
+            return .get
+        case .getAllTvSeriesListByPage:
+            return .get
+        case .getUserProfile:
+            return.get
+        case .getMovieGenre:
+            return.get
+        case .getMovieByMovieId:
+            return .get
         }
     }
     
@@ -75,6 +80,11 @@ enum networkEndpoint:APIProtocol{
                 return[
                     "language" : "en"
                 ]
+        case .getMovieByMovieId(moiveID: let moiveID):
+            return[
+                "moivie":moiveID
+            
+            ]
         }
     }
     
