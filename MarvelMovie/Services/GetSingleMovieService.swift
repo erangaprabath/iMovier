@@ -14,4 +14,8 @@ actor GetSingleMovieService{
     init(networkManger: NetworkManager<networkEndpoint>) {
         self.networkManger = networkManger
     }
+    
+    func downloadSingleMovieData() async -> String{
+        return "Hello my boy"
+    }
 }

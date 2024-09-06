@@ -37,6 +37,7 @@
 		52C6B9492C84651D0081CE63 /* PlaceHolderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B9482C84651D0081CE63 /* PlaceHolderData.swift */; };
 		52C6B94B2C846B940081CE63 /* AllTvSeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B94A2C846B940081CE63 /* AllTvSeriesModel.swift */; };
 		846ABB912C88D85800971C63 /* GetSingleMovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ABB902C88D85800971C63 /* GetSingleMovieService.swift */; };
+		84A9B8652C8A2DCE001FEAD6 /* MainMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9B8642C8A2DCE001FEAD6 /* MainMovieView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		52C6B9482C84651D0081CE63 /* PlaceHolderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderData.swift; sourceTree = "<group>"; };
 		52C6B94A2C846B940081CE63 /* AllTvSeriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTvSeriesModel.swift; sourceTree = "<group>"; };
 		846ABB902C88D85800971C63 /* GetSingleMovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSingleMovieService.swift; sourceTree = "<group>"; };
+		84A9B8642C8A2DCE001FEAD6 /* MainMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMovieView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 		5204056C2C832D0B009B56FE /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				84A9B8602C8A2D89001FEAD6 /* SingleMovie */,
 				5268C6D62C84C5FF0043BE29 /* MovieGenre */,
 				5250ECC92C84AC8B00E8BD9E /* Profile */,
 				52C6B92B2C8367780081CE63 /* Dashboard */,
@@ -355,6 +358,38 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		84A9B8602C8A2D89001FEAD6 /* SingleMovie */ = {
+			isa = PBXGroup;
+			children = (
+				84A9B8632C8A2DAE001FEAD6 /* Model */,
+				84A9B8622C8A2DA2001FEAD6 /* ViewModel */,
+				84A9B8612C8A2D9B001FEAD6 /* View */,
+			);
+			path = SingleMovie;
+			sourceTree = "<group>";
+		};
+		84A9B8612C8A2D9B001FEAD6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84A9B8642C8A2DCE001FEAD6 /* MainMovieView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		84A9B8622C8A2DA2001FEAD6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		84A9B8632C8A2DAE001FEAD6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -509,6 +544,7 @@
 				5268C6DD2C84C6A00043BE29 /* MovieGenreService.swift in Sources */,
 				5250ECD42C84B8BA00E8BD9E /* ProfileSection.swift in Sources */,
 				5250ECD02C84AFC900E8BD9E /* GetuserdetailsService.swift in Sources */,
+				84A9B8652C8A2DCE001FEAD6 /* MainMovieView.swift in Sources */,
 				52C6B92E2C8367B70081CE63 /* MovieDashboardView.swift in Sources */,
 				520405432C82ECD9009B56FE /* MarvelMovieApp.swift in Sources */,
 				52C6B9432C838B8F0081CE63 /* AllFilmService.swift in Sources */,
