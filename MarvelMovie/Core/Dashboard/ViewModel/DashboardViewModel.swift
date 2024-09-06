@@ -15,6 +15,8 @@ class DashboardViewModel:ObservableObject{
     @Published var tvSeriesDataSet:[FilmCardDataModel] = []
     private var moviePageNo:Int = 1
     private var tvSeriesPageNo:Int = 1
+    private var isFilterActive:Bool = false
+    private var genreId:Int = 0
     
     private let networkManager = NetworkManager<networkEndpoint>()
     
@@ -54,8 +56,12 @@ class DashboardViewModel:ObservableObject{
             switch movieData{
                 case .success(let recievedMovieData):
                     let newMovies = recievedMovieData.results.map { mapMovieViewData(recivedData: $0) }
-                    self.movieDataSet.append(contentsOf: newMovies)
-                    print(recievedMovieData)
+                    if isFilterActive{
+                        let filtereddMovie = newMovies.filter({$0.genreIds.contains(genreId)})
+                        self.movieDataSet.append(contentsOf: filtereddMovie)
+                    }else{
+                        self.movieDataSet.append(contentsOf: newMovies)
+                    }
                 case .failure(let failure):
                     viewIsLoaded = false
                     self.errors = failure
@@ -108,12 +114,16 @@ class DashboardViewModel:ObservableObject{
     }
     
     func filterMovieByGenreId(genreId:Int){
-      let filtedMovies = self.movieDataSet.filter({$0.genreIds.contains(genreId)})
-        let filtedTvSeries = self.tvSeriesDataSet.filter({$0.genreIds.contains(genreId)})
-        if filtedMovies.isEmpty || filtedTvSeries.isEmpty{
+     
+        self.isFilterActive = true
+        self.genreId = genreId
+        let filtedMovies = self.movieDataSet.filter({$0.genreIds.contains(genreId)})
+        _ = self.tvSeriesDataSet.filter({$0.genreIds.contains(genreId)})
+        if filtedMovies.isEmpty{
             loadMoreData(isMovie: true)
         }
         self.movieDataSet = filtedMovies
+        print("FILTER BY GENRE ID \(genreId) \(filtedMovies)")
 //        self.tvSeriesDataSet = filtedTvSeries
         
     }
