@@ -13,7 +13,8 @@ struct MovieDashboardView: View {
     @State private var movieData:[FilmCardDataModel] = []
     @State private var tvSeriesData:[FilmCardDataModel] = []
     private let placeHolderData:MoviePlaceholder = MoviePlaceholder()
-    @State private var test:Bool = false
+    @State private var singleMovieView:Bool = false
+    @State private var selectedMoiveID:Int? = nil
     var body: some View {
         VStack(alignment: .leading){
           ProfileSection()
@@ -41,8 +42,8 @@ struct MovieDashboardView: View {
                 .ignoresSafeArea()
 //
             })
-        .navigationDestination(isPresented: $test) {
-            EmptyView()
+        .navigationDestination(isPresented: $singleMovieView) {
+            SingleMovieView(movieId:selectedMoiveID ?? 0)
         }
        
     }
@@ -56,7 +57,11 @@ extension MovieDashboardView{
                             FilmCardView(singleMovie:singleMovie)
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
                                 .onTapGesture {
-                                    test = true
+                                    selectedMoiveID = singleMovie.id
+                                    if selectedMoiveID != nil{
+                                        singleMovieView = true
+                                    }
+                                    
                                 }.onAppear(perform: {
                                     if singleMovie.id == dashboardViewModel.movieDataSet.last?.id{
                                         dashboardViewModel.loadMoreData(isMovie: true)
@@ -81,7 +86,7 @@ extension MovieDashboardView{
                             FilmCardView(singleMovie:singleMovie)
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
                                 .onTapGesture {
-                                    test = true
+                                    singleMovieView = true
                                 }.onAppear(perform: {
                                     if singleMovie.id == dashboardViewModel.tvSeriesDataSet.last?.id{
                                         dashboardViewModel.loadMoreData(isMovie: false)

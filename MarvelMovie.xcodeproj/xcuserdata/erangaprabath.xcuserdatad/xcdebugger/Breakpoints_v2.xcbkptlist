@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F9F3C339-8A43-4028-8897-EE8DBFE03AC2"
+            uuid = "51CF0CF1-9092-41AF-A937-AF5B8A9E1AA3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MarvelMovie/Services/AllFilmService.swift"
+            filePath = "MarvelMovie/Core/MovieGenre/ViewModel/SingleMovieViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
-            landmarkName = "downloadAllFilmData(pageNo:)"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "mapSingleMovieDetals(movieId:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -15,7 +15,13 @@ actor GetSingleMovieService{
         self.networkManger = networkManger
     }
     
-    func downloadSingleMovieData() async -> String{
-        return "Hello my boy"
+    func downloadSingleMovieData(movieID:Int) async -> Result<SingleMovieModel,APIError>{
+        let apiEndPoint = networkEndpoint.getMovieByMovieId(moiveID: movieID)
+        do{
+            let fetchData:SingleMovieModel = try await networkManger.downloadData(endpoints: apiEndPoint)
+            return .success(fetchData)
+        }catch{
+            return.failure(APIError.decodingError(error: error))
+        }
     }
 }

@@ -29,8 +29,8 @@ enum networkEndpoint:APIProtocol{
             return "/3/account/\(userId)"
         case .getMovieGenre:
             return "/3/genre/movie/list"
-        case .getMovieByMovieId:
-            return "/3/"
+        case .getMovieByMovieId(let moiveID):
+            return "/3/movie/\(moiveID)"
         }
     }
     
@@ -80,9 +80,9 @@ enum networkEndpoint:APIProtocol{
                 return[
                     "language" : "en"
                 ]
-        case .getMovieByMovieId(moiveID: let moiveID):
+        case .getMovieByMovieId:
             return[
-                "moivie":moiveID
+                "language":"en-US"
             
             ]
         }
