@@ -17,5 +17,6 @@ struct FilmCardDataModel:Equatable{
     let voteCount:Int
     let isAdult:Bool
     let genreIds:[Int]
+    let landscapeImage:String
     
 }

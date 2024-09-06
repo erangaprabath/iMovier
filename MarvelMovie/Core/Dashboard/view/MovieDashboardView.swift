@@ -21,7 +21,9 @@ struct MovieDashboardView: View {
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity)
             MovieGenreView(dashboardViewModel: dashboardViewModel)
+            PopularMovieView(dashboardViewModel: dashboardViewModel)
             List{
+               
                 Section(section: "Movies")
                     .listRowBackground(Color.clear)
                 movieSection

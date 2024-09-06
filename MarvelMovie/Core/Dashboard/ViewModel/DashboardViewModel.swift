@@ -95,7 +95,7 @@ class DashboardViewModel:ObservableObject{
             language: recivedData.originalLanguage,
             voteCount: recivedData.voteCount, 
             isAdult: recivedData.adult,
-            genreIds: recivedData.genreIDS
+            genreIds: recivedData.genreIDS, landscapeImage: recivedData.backdropPath ?? ""
         )
     }
     
@@ -109,7 +109,7 @@ class DashboardViewModel:ObservableObject{
             language: recivedData.originalLanguage,
             voteCount: recivedData.voteCount, 
             isAdult: recivedData.adult,
-            genreIds: recivedData.genreIDS
+            genreIds: recivedData.genreIDS, landscapeImage: recivedData.backdropPath ?? ""
         )
     }
     

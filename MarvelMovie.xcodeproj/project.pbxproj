@@ -42,7 +42,9 @@
 		52C6B9492C84651D0081CE63 /* PlaceHolderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B9482C84651D0081CE63 /* PlaceHolderData.swift */; };
 		52C6B94B2C846B940081CE63 /* AllTvSeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B94A2C846B940081CE63 /* AllTvSeriesModel.swift */; };
 		846ABB912C88D85800971C63 /* GetSingleMovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ABB902C88D85800971C63 /* GetSingleMovieService.swift */; };
+		8490B31D2C8B70C90049467E /* SinglePopularMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8490B31C2C8B70C90049467E /* SinglePopularMovieViewModel.swift */; };
 		84A9B8652C8A2DCE001FEAD6 /* SingleMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9B8642C8A2DCE001FEAD6 /* SingleMovieView.swift */; };
+		84BB53E72C8B73CC00A6242F /* PopularMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BB53E62C8B73CC00A6242F /* PopularMovieView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,7 +102,9 @@
 		52C6B9482C84651D0081CE63 /* PlaceHolderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderData.swift; sourceTree = "<group>"; };
 		52C6B94A2C846B940081CE63 /* AllTvSeriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTvSeriesModel.swift; sourceTree = "<group>"; };
 		846ABB902C88D85800971C63 /* GetSingleMovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSingleMovieService.swift; sourceTree = "<group>"; };
+		8490B31C2C8B70C90049467E /* SinglePopularMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePopularMovieViewModel.swift; sourceTree = "<group>"; };
 		84A9B8642C8A2DCE001FEAD6 /* SingleMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleMovieView.swift; sourceTree = "<group>"; };
+		84BB53E62C8B73CC00A6242F /* PopularMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMovieView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +276,8 @@
 		5253C38D2C8B69110062181F /* PopularMovies */ = {
 			isa = PBXGroup;
 			children = (
+				8490B31B2C8B709A0049467E /* ViewModel */,
+				8490B31E2C8B731B0049467E /* View */,
 			);
 			path = PopularMovies;
 			sourceTree = "<group>";
@@ -392,6 +398,22 @@
 				520405442C82ECD9009B56FE /* ContentView.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		8490B31B2C8B709A0049467E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				8490B31C2C8B70C90049467E /* SinglePopularMovieViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8490B31E2C8B731B0049467E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84BB53E62C8B73CC00A6242F /* PopularMovieView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		84A9B8602C8A2D89001FEAD6 /* SingleMovie */ = {
@@ -571,6 +593,7 @@
 				52C6B94B2C846B940081CE63 /* AllTvSeriesModel.swift in Sources */,
 				520405452C82ECD9009B56FE /* ContentView.swift in Sources */,
 				52C6B9402C8389D90081CE63 /* DashboardViewModel.swift in Sources */,
+				8490B31D2C8B70C90049467E /* SinglePopularMovieViewModel.swift in Sources */,
 				5250ECC42C846D9900E8BD9E /* AllTvSeriesService.swift in Sources */,
 				5250ECC62C8470EA00E8BD9E /* FilmCardDataModel.swift in Sources */,
 				5253C3872C8B40CA0062181F /* StringExtension.swift in Sources */,
@@ -579,6 +602,7 @@
 				5253C38C2C8B66600062181F /* BackButtonView.swift in Sources */,
 				846ABB912C88D85800971C63 /* GetSingleMovieService.swift in Sources */,
 				52C6B9312C836BDA0081CE63 /* FilmCardView.swift in Sources */,
+				84BB53E72C8B73CC00A6242F /* PopularMovieView.swift in Sources */,
 				52C6B93A2C837B7B0081CE63 /* NetworkManager.swift in Sources */,
 				520405702C832D4A009B56FE /* SplashScreen.swift in Sources */,
 				5250ECD22C84B1C300E8BD9E /* ProfileViewModel.swift in Sources */,
