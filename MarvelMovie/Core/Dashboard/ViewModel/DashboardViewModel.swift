@@ -15,11 +15,14 @@ class DashboardViewModel:ObservableObject{
     @Published var tvSeriesDataSet:[FilmCardDataModel] = []
     private var moviePageNo:Int = 1
     private var tvSeriesPageNo:Int = 1
+    private var isFilterActive:Bool = false
+    private var genreId:Int = 0
     
     private let networkManager = NetworkManager<networkEndpoint>()
     
     private let allFilmService:AllFilmService
     private let allTvSeriesService:AllTvSeriesService
+    
     
     init(){
         self.allFilmService = AllFilmService(networkmanger: networkManager)
@@ -29,21 +32,23 @@ class DashboardViewModel:ObservableObject{
     
     func manageDataBinding(){
         viewIsLoaded = false
-        mapMovies()
-        mapTvSeries()
-        viewIsLoaded = true
+        Task{
+            await mapMovies()
+            await mapTvSeries()
+            viewIsLoaded = true
+        }
     }
     func loadMoreData(isMovie:Bool){
         if isMovie{
             moviePageNo = moviePageNo + 1
-            mapMovies()
+            Task{ await mapMovies() }
         }else{
             tvSeriesPageNo = tvSeriesPageNo + 1
-            mapTvSeries()
+            Task{ await  mapTvSeries() }
         }
     }
 
-   private func mapMovies(){
+   private func mapMovies()async{
         
         Task{ @MainActor in
           
@@ -51,8 +56,12 @@ class DashboardViewModel:ObservableObject{
             switch movieData{
                 case .success(let recievedMovieData):
                     let newMovies = recievedMovieData.results.map { mapMovieViewData(recivedData: $0) }
-                    self.movieDataSet.append(contentsOf: newMovies)
-                    print(recievedMovieData)
+                    if isFilterActive{
+                        let filtereddMovie = newMovies.filter({$0.genreIds.contains(genreId)})
+                        self.movieDataSet.append(contentsOf: filtereddMovie)
+                    }else{
+                        self.movieDataSet.append(contentsOf: newMovies)
+                    }
                 case .failure(let failure):
                     viewIsLoaded = false
                     self.errors = failure
@@ -61,7 +70,7 @@ class DashboardViewModel:ObservableObject{
             }
         }
     }
-    private func mapTvSeries(){
+    private func mapTvSeries() async{
         Task{ @MainActor in
             let tvSeriesData = await self.allTvSeriesService.donwloadAllTvSeries(pageNo: tvSeriesPageNo)
             switch tvSeriesData {
@@ -84,7 +93,9 @@ class DashboardViewModel:ObservableObject{
             voteAvarage: recivedData.voteAverage,
             pop: recivedData.popularity,
             language: recivedData.originalLanguage,
-            voteCount: recivedData.voteCount, isAdult: recivedData.adult
+            voteCount: recivedData.voteCount, 
+            isAdult: recivedData.adult,
+            genreIds: recivedData.genreIDS, landscapeImage: recivedData.backdropPath ?? ""
         )
     }
     
@@ -96,7 +107,24 @@ class DashboardViewModel:ObservableObject{
             voteAvarage: recivedData.voteAverage,
             pop: recivedData.popularity,
             language: recivedData.originalLanguage,
-            voteCount: recivedData.voteCount, isAdult: recivedData.adult
+            voteCount: recivedData.voteCount, 
+            isAdult: recivedData.adult,
+            genreIds: recivedData.genreIDS, landscapeImage: recivedData.backdropPath ?? ""
         )
+    }
+    
+    func filterMovieByGenreId(genreId:Int){
+     
+        self.isFilterActive = true
+        self.genreId = genreId
+        let filtedMovies = self.movieDataSet.filter({$0.genreIds.contains(genreId)})
+        _ = self.tvSeriesDataSet.filter({$0.genreIds.contains(genreId)})
+        if filtedMovies.isEmpty{
+            loadMoreData(isMovie: true)
+        }
+        self.movieDataSet = filtedMovies
+        print("FILTER BY GENRE ID \(genreId) \(filtedMovies)")
+//        self.tvSeriesDataSet = filtedTvSeries
+        
     }
 }

@@ -21,6 +21,13 @@
 		5250ECD02C84AFC900E8BD9E /* GetuserdetailsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250ECCF2C84AFC900E8BD9E /* GetuserdetailsService.swift */; };
 		5250ECD22C84B1C300E8BD9E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250ECD12C84B1C300E8BD9E /* ProfileViewModel.swift */; };
 		5250ECD42C84B8BA00E8BD9E /* ProfileSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5250ECD32C84B8BA00E8BD9E /* ProfileSection.swift */; };
+		52536A7B2C8C0594005DABBB /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52536A7A2C8C0594005DABBB /* Montserrat-Regular.ttf */; };
+		52536A7D2C8C059B005DABBB /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52536A7C2C8C059B005DABBB /* Montserrat-Bold.ttf */; };
+		5253C3822C8B2E830062181F /* SingleMovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253C3812C8B2E830062181F /* SingleMovieModel.swift */; };
+		5253C3842C8B2FC00062181F /* SingleMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253C3832C8B2FC00062181F /* SingleMovieViewModel.swift */; };
+		5253C3872C8B40CA0062181F /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253C3862C8B40CA0062181F /* StringExtension.swift */; };
+		5253C3892C8B598E0062181F /* CompnayDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253C3882C8B598E0062181F /* CompnayDetailsView.swift */; };
+		5253C38C2C8B66600062181F /* BackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5253C38B2C8B66600062181F /* BackButtonView.swift */; };
 		5268C6DB2C84C6750043BE29 /* MovieGenreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5268C6DA2C84C6750043BE29 /* MovieGenreModel.swift */; };
 		5268C6DD2C84C6A00043BE29 /* MovieGenreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5268C6DC2C84C6A00043BE29 /* MovieGenreService.swift */; };
 		5268C6DF2C84C9830043BE29 /* MovieGenreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5268C6DE2C84C9830043BE29 /* MovieGenreView.swift */; };
@@ -36,6 +43,10 @@
 		52C6B9452C838CFA0081CE63 /* HandleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B9442C838CFA0081CE63 /* HandleProtocol.swift */; };
 		52C6B9492C84651D0081CE63 /* PlaceHolderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B9482C84651D0081CE63 /* PlaceHolderData.swift */; };
 		52C6B94B2C846B940081CE63 /* AllTvSeriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6B94A2C846B940081CE63 /* AllTvSeriesModel.swift */; };
+		846ABB912C88D85800971C63 /* GetSingleMovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ABB902C88D85800971C63 /* GetSingleMovieService.swift */; };
+		8490B31D2C8B70C90049467E /* SinglePopularMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8490B31C2C8B70C90049467E /* SinglePopularMovieViewModel.swift */; };
+		84A9B8652C8A2DCE001FEAD6 /* SingleMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9B8642C8A2DCE001FEAD6 /* SingleMovieView.swift */; };
+		84BB53E72C8B73CC00A6242F /* PopularMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BB53E62C8B73CC00A6242F /* PopularMovieView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +84,14 @@
 		5250ECCF2C84AFC900E8BD9E /* GetuserdetailsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetuserdetailsService.swift; sourceTree = "<group>"; };
 		5250ECD12C84B1C300E8BD9E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		5250ECD32C84B8BA00E8BD9E /* ProfileSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSection.swift; sourceTree = "<group>"; };
+		52536A7A2C8C0594005DABBB /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Regular.ttf"; path = "../../../../../Downloads/montserrat/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		52536A7C2C8C059B005DABBB /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Bold.ttf"; path = "../../../../../Downloads/montserrat/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		5253C3812C8B2E830062181F /* SingleMovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SingleMovieModel.swift; path = MarvelMovie/Core/MovieGenre/ViewModel/SingleMovieModel.swift; sourceTree = SOURCE_ROOT; };
+		5253C3832C8B2FC00062181F /* SingleMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SingleMovieViewModel.swift; path = MarvelMovie/Core/MovieGenre/ViewModel/SingleMovieViewModel.swift; sourceTree = SOURCE_ROOT; };
+		5253C3862C8B40CA0062181F /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		5253C3882C8B598E0062181F /* CompnayDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompnayDetailsView.swift; sourceTree = "<group>"; };
+		5253C38B2C8B66600062181F /* BackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonView.swift; sourceTree = "<group>"; };
+		526156C82C8C066600C90390 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5268C6DA2C84C6750043BE29 /* MovieGenreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGenreModel.swift; sourceTree = "<group>"; };
 		5268C6DC2C84C6A00043BE29 /* MovieGenreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGenreService.swift; sourceTree = "<group>"; };
 		5268C6DE2C84C9830043BE29 /* MovieGenreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGenreView.swift; sourceTree = "<group>"; };
@@ -87,6 +106,10 @@
 		52C6B9442C838CFA0081CE63 /* HandleProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleProtocol.swift; sourceTree = "<group>"; };
 		52C6B9482C84651D0081CE63 /* PlaceHolderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderData.swift; sourceTree = "<group>"; };
 		52C6B94A2C846B940081CE63 /* AllTvSeriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTvSeriesModel.swift; sourceTree = "<group>"; };
+		846ABB902C88D85800971C63 /* GetSingleMovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSingleMovieService.swift; sourceTree = "<group>"; };
+		8490B31C2C8B70C90049467E /* SinglePopularMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePopularMovieViewModel.swift; sourceTree = "<group>"; };
+		84A9B8642C8A2DCE001FEAD6 /* SingleMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleMovieView.swift; sourceTree = "<group>"; };
+		84BB53E62C8B73CC00A6242F /* PopularMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMovieView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,8 +161,11 @@
 		520405412C82ECD9009B56FE /* MarvelMovie */ = {
 			isa = PBXGroup;
 			children = (
+				526156C82C8C066600C90390 /* Info.plist */,
+				52536A792C8C0577005DABBB /* CustomFonts */,
 				52C6B94C2C846C0C0081CE63 /* App */,
 				5204056C2C832D0B009B56FE /* Core */,
+				5253C3852C8B409E0062181F /* Extensions */,
 				52C6B9352C837A690081CE63 /* NetworkManager */,
 				52C6B93B2C837CF70081CE63 /* Protocol */,
 				52C6B9412C838B760081CE63 /* Services */,
@@ -177,6 +203,9 @@
 		5204056C2C832D0B009B56FE /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				5253C38D2C8B69110062181F /* PopularMovies */,
+				5253C38A2C8B664B0062181F /* CommonView */,
+				84A9B8602C8A2D89001FEAD6 /* SingleMovie */,
 				5268C6D62C84C5FF0043BE29 /* MovieGenre */,
 				5250ECC92C84AC8B00E8BD9E /* Profile */,
 				52C6B92B2C8367780081CE63 /* Dashboard */,
@@ -233,6 +262,40 @@
 				5250ECCD2C84AD3E00E8BD9E /* ProfileModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		52536A792C8C0577005DABBB /* CustomFonts */ = {
+			isa = PBXGroup;
+			children = (
+				52536A7C2C8C059B005DABBB /* Montserrat-Bold.ttf */,
+				52536A7A2C8C0594005DABBB /* Montserrat-Regular.ttf */,
+			);
+			path = CustomFonts;
+			sourceTree = "<group>";
+		};
+		5253C3852C8B409E0062181F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5253C3862C8B40CA0062181F /* StringExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5253C38A2C8B664B0062181F /* CommonView */ = {
+			isa = PBXGroup;
+			children = (
+				5253C38B2C8B66600062181F /* BackButtonView.swift */,
+			);
+			path = CommonView;
+			sourceTree = "<group>";
+		};
+		5253C38D2C8B69110062181F /* PopularMovies */ = {
+			isa = PBXGroup;
+			children = (
+				8490B31B2C8B709A0049467E /* ViewModel */,
+				8490B31E2C8B731B0049467E /* View */,
+			);
+			path = PopularMovies;
 			sourceTree = "<group>";
 		};
 		5268C6D62C84C5FF0043BE29 /* MovieGenre */ = {
@@ -339,6 +402,7 @@
 				5250ECC32C846D9900E8BD9E /* AllTvSeriesService.swift */,
 				5250ECCF2C84AFC900E8BD9E /* GetuserdetailsService.swift */,
 				5268C6DC2C84C6A00043BE29 /* MovieGenreService.swift */,
+				846ABB902C88D85800971C63 /* GetSingleMovieService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -350,6 +414,57 @@
 				520405442C82ECD9009B56FE /* ContentView.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		8490B31B2C8B709A0049467E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				8490B31C2C8B70C90049467E /* SinglePopularMovieViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8490B31E2C8B731B0049467E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84BB53E62C8B73CC00A6242F /* PopularMovieView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		84A9B8602C8A2D89001FEAD6 /* SingleMovie */ = {
+			isa = PBXGroup;
+			children = (
+				84A9B8632C8A2DAE001FEAD6 /* Model */,
+				84A9B8622C8A2DA2001FEAD6 /* ViewModel */,
+				84A9B8612C8A2D9B001FEAD6 /* View */,
+			);
+			path = SingleMovie;
+			sourceTree = "<group>";
+		};
+		84A9B8612C8A2D9B001FEAD6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84A9B8642C8A2DCE001FEAD6 /* SingleMovieView.swift */,
+				5253C3882C8B598E0062181F /* CompnayDetailsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		84A9B8622C8A2DA2001FEAD6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5253C3832C8B2FC00062181F /* SingleMovieViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		84A9B8632C8A2DAE001FEAD6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5253C3812C8B2E830062181F /* SingleMovieModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -462,6 +577,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52536A7D2C8C059B005DABBB /* Montserrat-Bold.ttf in Resources */,
+				52536A7B2C8C0594005DABBB /* Montserrat-Regular.ttf in Resources */,
 				5204054A2C82ECDA009B56FE /* Preview Assets.xcassets in Resources */,
 				520405472C82ECDA009B56FE /* Assets.xcassets in Resources */,
 			);
@@ -494,22 +611,31 @@
 				52C6B94B2C846B940081CE63 /* AllTvSeriesModel.swift in Sources */,
 				520405452C82ECD9009B56FE /* ContentView.swift in Sources */,
 				52C6B9402C8389D90081CE63 /* DashboardViewModel.swift in Sources */,
+				8490B31D2C8B70C90049467E /* SinglePopularMovieViewModel.swift in Sources */,
 				5250ECC42C846D9900E8BD9E /* AllTvSeriesService.swift in Sources */,
 				5250ECC62C8470EA00E8BD9E /* FilmCardDataModel.swift in Sources */,
+				5253C3872C8B40CA0062181F /* StringExtension.swift in Sources */,
 				52C6B9492C84651D0081CE63 /* PlaceHolderData.swift in Sources */,
+				5253C3892C8B598E0062181F /* CompnayDetailsView.swift in Sources */,
+				5253C38C2C8B66600062181F /* BackButtonView.swift in Sources */,
+				846ABB912C88D85800971C63 /* GetSingleMovieService.swift in Sources */,
 				52C6B9312C836BDA0081CE63 /* FilmCardView.swift in Sources */,
+				84BB53E72C8B73CC00A6242F /* PopularMovieView.swift in Sources */,
 				52C6B93A2C837B7B0081CE63 /* NetworkManager.swift in Sources */,
 				520405702C832D4A009B56FE /* SplashScreen.swift in Sources */,
 				5250ECD22C84B1C300E8BD9E /* ProfileViewModel.swift in Sources */,
+				5253C3842C8B2FC00062181F /* SingleMovieViewModel.swift in Sources */,
 				5268C6DF2C84C9830043BE29 /* MovieGenreView.swift in Sources */,
 				5268C6DD2C84C6A00043BE29 /* MovieGenreService.swift in Sources */,
 				5250ECD42C84B8BA00E8BD9E /* ProfileSection.swift in Sources */,
 				5250ECD02C84AFC900E8BD9E /* GetuserdetailsService.swift in Sources */,
+				84A9B8652C8A2DCE001FEAD6 /* SingleMovieView.swift in Sources */,
 				52C6B92E2C8367B70081CE63 /* MovieDashboardView.swift in Sources */,
 				520405432C82ECD9009B56FE /* MarvelMovieApp.swift in Sources */,
 				52C6B9432C838B8F0081CE63 /* AllFilmService.swift in Sources */,
 				5268C6DB2C84C6750043BE29 /* MovieGenreModel.swift in Sources */,
 				5268C6E12C84CB100043BE29 /* MovieGenreViewModel.swift in Sources */,
+				5253C3822C8B2E830062181F /* SingleMovieModel.swift in Sources */,
 				5250ECCE2C84AD3E00E8BD9E /* ProfileModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -677,6 +803,7 @@
 				DEVELOPMENT_TEAM = T27Z45937J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarvelMovie/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -706,6 +833,7 @@
 				DEVELOPMENT_TEAM = T27Z45937J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarvelMovie/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

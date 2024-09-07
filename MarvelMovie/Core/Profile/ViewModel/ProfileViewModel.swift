@@ -15,10 +15,10 @@ class ProfileViewModel:ObservableObject{
     
     init() {
         self.profileData = GetuserdetailsService(networkManger: networkManger)
-        mapUserProfile()
+        Task{ await mapUserProfile() }
     }
     
-    func mapUserProfile(){
+    func mapUserProfile() async{
         Task{ @MainActor [weak self] in
             let profileData = await self?.profileData.dwonloadUsreDetails(userId: 21476694)
             switch profileData {

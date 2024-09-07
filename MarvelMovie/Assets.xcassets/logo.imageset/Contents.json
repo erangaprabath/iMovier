@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "vecteezy_play-button-for-media-app-logo-design-streaming-service-app_29460789.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

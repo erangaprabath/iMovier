@@ -13,28 +13,42 @@ struct MovieDashboardView: View {
     @State private var movieData:[FilmCardDataModel] = []
     @State private var tvSeriesData:[FilmCardDataModel] = []
     private let placeHolderData:MoviePlaceholder = MoviePlaceholder()
-    @State private var test:Bool = false
-    let columns = [
-            GridItem(.flexible()), // First column
-            GridItem(.flexible())  // Second column
-        ]
+    @State private var singleMovieView:Bool = false
+    @State private var selectedMoiveID:Int? = nil
+    @State private var appearedPopMovieId:Int = 0
     var body: some View {
         VStack(alignment: .leading){
           ProfileSection()
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity)
-            MovieGenreView()
+            MovieGenreView(dashboardViewModel: dashboardViewModel)
+         
             List{
+            popMovieSection
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                Section(section: "Movies")
+                    .listRowBackground(Color.clear)
                 movieSection
-                tvSerSection
+                Section(section: "TV Shows")
+                    .listRowBackground(Color.clear)
+                tvSeriesSection
             }.scrollIndicators(.never)
                 .listStyle(.plain)
                
             
-        }.background(Color.black.opacity(0.98)
-            .ignoresSafeArea())
-        .navigationDestination(isPresented: $test) {
-            EmptyView()
+        }.background(
+            ZStack{ 
+               
+                Image("background")
+                    .resizable()
+                    .ignoresSafeArea()
+                Color.black.opacity(0.85)
+                .ignoresSafeArea()
+//
+            })
+        .navigationDestination(isPresented: $singleMovieView) {
+            SingleMovieView(movieId:selectedMoiveID ?? 0)
         }
        
     }
@@ -46,13 +60,18 @@ extension MovieDashboardView{
                     LazyHStack(){
                         ForEach(movieData,id:\.id){ singleMovie in
                             FilmCardView(singleMovie:singleMovie)
+                               
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
                                 .onTapGesture {
-                                    test = true
+                                    selectedMoiveID = singleMovie.id
+                                    if selectedMoiveID != nil{
+                                        singleMovieView = true
+                                    }
                                 }.onAppear(perform: {
                                     if singleMovie.id == dashboardViewModel.movieDataSet.last?.id{
                                         dashboardViewModel.loadMoreData(isMovie: true)
                                     }
+                                    
                                 })
                         }
                     }
@@ -65,7 +84,7 @@ extension MovieDashboardView{
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
     }
-    private var tvSerSection:some View{
+    private var tvSeriesSection:some View{
             VStack{
                 ScrollView(.horizontal){
                     LazyHStack{
@@ -73,7 +92,7 @@ extension MovieDashboardView{
                             FilmCardView(singleMovie:singleMovie)
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
                                 .onTapGesture {
-                                    test = true
+                                    singleMovieView = true
                                 }.onAppear(perform: {
                                     if singleMovie.id == dashboardViewModel.tvSeriesDataSet.last?.id{
                                         dashboardViewModel.loadMoreData(isMovie: false)
@@ -89,6 +108,20 @@ extension MovieDashboardView{
             })
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
+    }
+    private func Section(section:String)->some View{
+        VStack{
+            Text(section)
+                .foregroundStyle(Color.white)
+                .font(Font.custom("Montserrat-Regular", size: 25))
+                .fontWeight(.bold)
+        }
+    }
+    private var popMovieSection:some View{
+        VStack{
+            PopularMovieView(dashboardViewModel: dashboardViewModel, movieId: $selectedMoiveID,viewMovie: $singleMovieView)
+               
+        }.scrollClipDisabled()
     }
 }
 #Preview {

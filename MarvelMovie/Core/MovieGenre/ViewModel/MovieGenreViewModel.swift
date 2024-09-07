@@ -13,12 +13,15 @@ class MovieGenreViewModel:ObservableObject{
     private let getMovieGenre:MovieGenreService
     @Published var genreData:MovieGenreModel? = nil
     
-    init() {
+    private var dashBoardViewModel:DashboardViewModel
+    
+    init(dashBoardViewModel:DashboardViewModel) {
         self.getMovieGenre = MovieGenreService(networkMager: networkManager)
-        mapMovieGenre()
+        self.dashBoardViewModel = dashBoardViewModel
+        Task{ await mapMovieGenre() }
     }
     
-    func mapMovieGenre(){
+   private func mapMovieGenre()async{
         
         Task{ @MainActor [weak self] in
             
@@ -33,6 +36,10 @@ class MovieGenreViewModel:ObservableObject{
             }
             
         }
+    }
+    
+    func getFilterdFilms(genreId:Int) {
+        dashBoardViewModel.filterMovieByGenreId(genreId: genreId)
     }
     
 }
