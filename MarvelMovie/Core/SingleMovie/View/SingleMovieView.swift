@@ -33,17 +33,13 @@ struct SingleMovieView: View {
                 LinearGradient(colors: [.clear,.black], startPoint: .center, endPoint: .bottom)
                     .frame(height: 100)
                 imageQualityChange
-             
             }
             ZStack(alignment:.topLeading) {
                 Rectangle()
                     .ignoresSafeArea()
                 .frame(height: UIScreen.main.bounds.height * 0.45)
                 detailsView
-             
-               
             }
-                
         }.onAppear(perform: {
             Task{
                 await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId)
@@ -68,26 +64,23 @@ extension SingleMovieView{
     }
     private var mainImageView:some View{
         VStack{
-            KFImage(URL(string: "\(String.posterBaseUrl(quality: "185"/*qualityString*/))\(singleMovieData?.posterPath ?? "place holder")"))
+            KFImage(URL(string: "\(String.posterBaseUrl(quality: "185"))\(singleMovieData?.posterPath ?? "place holder")"))
                 .placeholder({  _ in
                     Image("background")
                         .resizable()
                         .scaledToFill()
                 })
                 .resizable()
-//                .aspectRatio(contentMode: .fill)
+                .aspectRatio(contentMode: .fill)
         }
     }
     private var nameTag:some View{
         VStack(alignment:.leading){
             Text(singleMovieData?.title.uppercased() ?? "place holder")
-                .font(.title)
-                .fontWeight(.bold)
-                .fontDesign(.rounded)
+                .font(Font.custom("Montserrat-Bold", size: 25))
                 .foregroundStyle(Color.white)
             Text(singleMovieData?.tagline.uppercased() ?? "place holder")
-                .font(.subheadline)
-                .fontWeight(.medium)
+                .font(Font.custom("Montserrat-Regular", size: 14))
                 .foregroundStyle(LinearGradient(colors: [.green,.cyan], startPoint: .leading, endPoint: .trailing))
         }
     }
@@ -121,10 +114,10 @@ extension SingleMovieView{
                     Text(genre.name)
                         .foregroundStyle(Color.white)
                         .fontWeight(.bold)
-                        .font(.system(size: 14))
+                        .font(Font.custom("Montserrat-Regular", size: 14))
                         .padding(.horizontal)
                         .padding(.vertical,10)
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.green.opacity(0.4))
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             }
@@ -133,9 +126,8 @@ extension SingleMovieView{
     }
     private var movieOverView:some View{
         Text(singleMovieData?.overview ?? "place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder ")
-            .font(.system(size: 14))
+            .font(Font.custom("Montserrat-Regular", size: 14))
             .foregroundStyle(Color.white)
-            .fontDesign(.monospaced)
     }
     private var imageQualityChange:some View{
         HStack(spacing:.zero){

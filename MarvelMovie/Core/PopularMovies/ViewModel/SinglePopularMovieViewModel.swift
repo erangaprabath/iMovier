@@ -16,7 +16,7 @@ class SinglePopularMovieViewModel:ObservableObject{
     
     func mapPopMovie() -> [FilmCardDataModel]{
         let allMoives = self.moviewViewModel.movieDataSet
-        let popMovie = allMoives.filter({$0.voteAvarage > 5.5})
+        let popMovie = allMoives.filter({$0.voteAvarage > 6.5})
         return popMovie
         
     }

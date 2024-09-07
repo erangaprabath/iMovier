@@ -18,12 +18,11 @@ struct SplashScreen: View {
             Image("splashBackgroundImage")
                 .resizable()
                 .scaledToFill()
-                .overlay {
-                    Color.black.opacity(0.7)
-                }
+                .blendMode(.darken)
+                .blur(radius: 3)
                 .ignoresSafeArea()
-               
             VStack{
+                Spacer()
                 TimelineView(.animation) { context in
                     let time = context.date.timeIntervalSince(nowData)
                     HStack(alignment: .center,spacing:-20){
@@ -35,7 +34,7 @@ struct SplashScreen: View {
                             .animation(.bouncy, value: time)
                         if time > 1{
                             Text(text.prefix(displayedCharacters))
-                                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.mint,.green]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
+                                .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.mint,.white]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: .center))
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .animation(.easeInOut, value: time)
@@ -56,7 +55,29 @@ struct SplashScreen: View {
                     }
                     
                 }
-            }
+                Spacer()
+                HStack{
+                    Text("Powered by")
+                        .textCase(.uppercase)
+                        .foregroundStyle(.white)
+                        .font(Font.custom("Montserrat-Bold", size: 18))
+                    Text("IMBD")
+                        .textCase(.uppercase)
+                        .foregroundStyle(LinearGradient(colors: [.red], startPoint: .leading, endPoint: .center))
+                        .font(Font.custom("Montserrat-Bold", size: 18))
+                    Text("ANd")
+                        .textCase(.uppercase)
+                        .foregroundStyle(.white)
+                        .font(Font.custom("Montserrat-Bold", size: 18))
+                     Text("SWIFT")
+                        .textCase(.uppercase)
+                        .foregroundStyle(Color.orange)
+                        .font(Font.custom("Montserrat-Bold", size: 18))
+                        .bold()
+                 
+                }
+            }.padding(.horizontal)
+         
         }
     }
 }

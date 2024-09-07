@@ -15,15 +15,18 @@ struct MovieDashboardView: View {
     private let placeHolderData:MoviePlaceholder = MoviePlaceholder()
     @State private var singleMovieView:Bool = false
     @State private var selectedMoiveID:Int? = nil
+    @State private var appearedPopMovieId:Int = 0
     var body: some View {
         VStack(alignment: .leading){
           ProfileSection()
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity)
             MovieGenreView(dashboardViewModel: dashboardViewModel)
-            PopularMovieView(dashboardViewModel: dashboardViewModel)
+         
             List{
-               
+            popMovieSection
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 Section(section: "Movies")
                     .listRowBackground(Color.clear)
                 movieSection
@@ -57,17 +60,18 @@ extension MovieDashboardView{
                     LazyHStack(){
                         ForEach(movieData,id:\.id){ singleMovie in
                             FilmCardView(singleMovie:singleMovie)
+                               
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
                                 .onTapGesture {
                                     selectedMoiveID = singleMovie.id
                                     if selectedMoiveID != nil{
                                         singleMovieView = true
                                     }
-                                    
                                 }.onAppear(perform: {
                                     if singleMovie.id == dashboardViewModel.movieDataSet.last?.id{
                                         dashboardViewModel.loadMoreData(isMovie: true)
                                     }
+                                    
                                 })
                         }
                     }
@@ -109,9 +113,15 @@ extension MovieDashboardView{
         VStack{
             Text(section)
                 .foregroundStyle(Color.white)
-                .font(.title)
+                .font(Font.custom("Montserrat-Regular", size: 25))
                 .fontWeight(.bold)
         }
+    }
+    private var popMovieSection:some View{
+        VStack{
+            PopularMovieView(dashboardViewModel: dashboardViewModel, movieId: $selectedMoiveID,viewMovie: $singleMovieView)
+               
+        }.scrollClipDisabled()
     }
 }
 #Preview {
