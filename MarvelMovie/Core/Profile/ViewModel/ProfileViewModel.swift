@@ -10,11 +10,11 @@ import Foundation
 class ProfileViewModel:ObservableObject{
     
     private let networkManger = NetworkManager<networkEndpoint>()
-    private let profileData:GetuserdetailsService
+    private let profileData:TmdbDataDownloadServices
     @Published var profile:ProfileModel? = nil
     
     init() {
-        self.profileData = GetuserdetailsService(networkManger: networkManger)
+        self.profileData = TmdbDataDownloadServices(networkmanger: networkManger)
         Task{ await mapUserProfile() }
     }
     

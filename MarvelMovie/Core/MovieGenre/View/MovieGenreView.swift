@@ -22,6 +22,7 @@ struct MovieGenreView: View {
                 HStack{
                     ForEach(movieGenre?.genres ?? [],id:\.id){ singleGenre in
                         singleGenreView(genre: singleGenre.name, isSelect: singleGenre.id == selected)
+                  
                             .id(selected)
                             .onTapGesture {
                                 selected = singleGenre.id
@@ -30,8 +31,10 @@ struct MovieGenreView: View {
                                 
                             }
                     }
-                }
+                } .scrollTargetLayout()
             }.scrollIndicators(.hidden)
+                  
+                    .scrollTargetBehavior(.paging)
             })
         
         }.onReceive(movieGenreViewModel.$genreData, perform: { newValues in
@@ -44,16 +47,11 @@ struct MovieGenreView: View {
 extension MovieGenreView{
     private func singleGenreView(genre:String,isSelect:Bool)->some View{
         HStack(spacing:.zero){
-//            if isSelect{
-//               Rectangle()
-//                    .foregroundStyle(Color.red)
-//                    .frame(width: 4,height: 20)
-//            }
             Text(genre)
-                .font(.system(size: 16,weight: .bold,design: .rounded))
+                .font(.system(size: 13,weight: .bold,design: .rounded))
                 .foregroundStyle(isSelect ? Color.white : Color.white)
         }.padding(10)
-        .background(isSelect ? Color.mint : Color.gray.opacity(0.3))
+            .background(isSelect ? Color.mint.opacity(0.99) : Color.mainBackground.opacity(0.8))
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }

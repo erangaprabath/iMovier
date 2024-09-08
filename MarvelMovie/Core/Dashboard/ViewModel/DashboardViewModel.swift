@@ -20,13 +20,13 @@ class DashboardViewModel:ObservableObject{
     
     private let networkManager = NetworkManager<networkEndpoint>()
     
-    private let allFilmService:AllFilmService
-    private let allTvSeriesService:AllTvSeriesService
+    private let allFilmService:TmdbDataDownloadServices
+//    private let allTvSeriesService:AllFilmService
     
     
     init(){
-        self.allFilmService = AllFilmService(networkmanger: networkManager)
-        self.allTvSeriesService = AllTvSeriesService(networkManager: networkManager)
+        self.allFilmService = TmdbDataDownloadServices(networkmanger: networkManager)
+//        self.allTvSeriesService = AllTvSeriesService(networkManager: networkManager)
         manageDataBinding()
     }
     
@@ -72,7 +72,7 @@ class DashboardViewModel:ObservableObject{
     }
     private func mapTvSeries() async{
         Task{ @MainActor in
-            let tvSeriesData = await self.allTvSeriesService.donwloadAllTvSeries(pageNo: tvSeriesPageNo)
+            let tvSeriesData = await self.allFilmService.donwloadAllTvSeries(pageNo: tvSeriesPageNo)
             switch tvSeriesData {
                 case .success(let recivedTvSeriesData):
                     let newTvSeries = recivedTvSeriesData.results.map({mapTvSeriesViewData(recivedData: $0)})

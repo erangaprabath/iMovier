@@ -14,10 +14,40 @@
             filePath = "MarvelMovie/Core/MovieGenre/ViewModel/SingleMovieViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
             landmarkName = "mapSingleMovieDetals(movieId:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "51CF0CF1-9092-41AF-A937-AF5B8A9E1AA3 - 6c1a733bc3ea9cd8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MarvelMovie.SingleMovieViewModel.mapSingleMovieDetals(movieId: Swift.Int) async -&gt; ()"
+                  moduleName = "MarvelMovie"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/erangaprabath/Desktop/IOS%20Development/MarvelMovie/MarvelMovie/Core/MovieGenre/ViewModel/SingleMovieViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+               <Location
+                  uuid = "51CF0CF1-9092-41AF-A937-AF5B8A9E1AA3 - a5ee99896ea631b8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for MarvelMovie.SingleMovieViewModel.mapSingleMovieDetals(movieId: Swift.Int) async -&gt; ()"
+                  moduleName = "MarvelMovie"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/erangaprabath/Desktop/IOS%20Development/MarvelMovie/MarvelMovie/Core/MovieGenre/ViewModel/SingleMovieViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

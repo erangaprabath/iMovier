@@ -19,7 +19,7 @@ struct BackButtonView: View {
                 .frame(width: 20,height: 20)
                 .foregroundStyle(Color.white)
                 .padding(10)
-                .background(Color.gray.opacity(0.5))
+                .background(Color.mint.opacity(0.7))
                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
         })
     }
