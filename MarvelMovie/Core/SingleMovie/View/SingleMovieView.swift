@@ -11,67 +11,98 @@ import Kingfisher
 struct SingleMovieView: View {
     
     @StateObject private var singleMovieViewModel = SingleMovieViewModel()
+    @State private var textExpand:Bool = false
+    @State private var viewExpand:Bool = false
+    @State private var animate:Bool = false
+    @State private var animatorDisplay:Bool = true
     @State private var singleMovieData:SingleMovieModel? = nil
     @State private var changeImageQuality:Bool = false
+
     private var movieId:Int
+    
    
     init(movieId:Int){
         self.movieId = movieId
     }
     var body: some View {
-        VStack(spacing:.zero){
-            ZStack(alignment:.bottomTrailing){
-                ZStack(alignment:.topLeading){
-                    mainImageView
-                        .frame(height: UIScreen.main.bounds.height * 0.58)
-                        .ignoresSafeArea()
-                    BackButtonView()
-                  .padding(.top,50)
-                        .padding(.leading,20)
-                }
+        ZStack (alignment: .topLeading){
+            VStack(spacing:.zero){
+                mainImageView
+                    .background(Color.black)
+//                ZStack(alignment:.topLeading) {
+//                    Rectangle()
+//                        .ignoresSafeArea()
+                        
+                    detailsView
+                    .background(Color.black)
+                        .onTapGesture {
+                            withAnimation {
+                                animatorDisplay = false
+                                viewExpand.toggle()
+                            }
+                            
+                        }
+//                }
+            }
+            BackButtonView()
+                .padding(.top,70)
+                .padding(.leading,20)
+        }.task{
+            await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId)
             
-                LinearGradient(colors: [.clear,.black], startPoint: .center, endPoint: .bottom)
-                    .frame(height: 100)
-                imageQualityChange
-            }
-            ZStack(alignment:.topLeading) {
-                Rectangle()
-                    .ignoresSafeArea()
-                .frame(height: UIScreen.main.bounds.height * 0.45)
-                detailsView
-            }
-        }.onAppear(perform: {
-            Task{
-                await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId)
-            }
-        }).onReceive(singleMovieViewModel.$movieMainDeitails, perform: { newValue in
-                self.singleMovieData = newValue
+        }.onReceive(singleMovieViewModel.$movieMainDeitails, perform: { newValue in
+            self.singleMovieData = newValue
         }).navigationBarBackButtonHidden()
+            .ignoresSafeArea()
     }
 }
 extension SingleMovieView{
     private var detailsView:some View{
         ScrollView{
             VStack(alignment:.leading){
+                if animatorDisplay{
+                    onTabReminder
+                        .frame(maxWidth: .infinity)
+                        .offset(y:animate ? -5 : 5)
+                        .animation(.linear(duration: 0.4).repeatForever(autoreverses: true), value: animate)
+                        .onAppear {
+                            animate = true
+                        }
+                }
+               
                 TMDBRatingView
                 nameTag
+                    .padding(.bottom)
                 relatedCategories
                     .padding(.bottom)
+                Text("Overview")
+                    .fontWeight(.black)
+                    .foregroundStyle(Color.white)
+                    .font(Font.custom("Montserrat-Bold", size: 20))
+                    .padding(.bottom)
                 movieOverView
+                    .padding(.bottom)
+                Text("Cast")
+                    .fontWeight(.black)
+                    .foregroundStyle(Color.white)
+                    .font(Font.custom("Montserrat-Bold", size: 20))
+                CastAndCrewView(movieCrewAndMovieCast: singleMovieViewModel.movieCastAndCrew)
+                    .padding(.bottom)
             }.padding()
                 .redacted(reason: singleMovieData == nil ? .placeholder : .privacy)
         }
     }
     private var mainImageView:some View{
-        VStack{
-            KFImage(URL(string: "\(String.posterBaseUrl(quality: "185"))\(singleMovieData?.posterPath ?? "place holder")"))
-                .placeholder({  _ in
-                    Image("background")
-                        .resizable()
-                        .scaledToFill()
-                })
+        ZStack(alignment:.bottom){
+            KFImage(URL(string: "\(String.posterBaseUrl(quality: "500"))\( !viewExpand ? singleMovieData?.posterPath ?? "" : singleMovieData?.backdropPath ?? "place holder")"))
                 .resizable()
-                .aspectRatio(contentMode: .fill)
+                .frame(height: !viewExpand ? UIScreen.main.bounds.height * 0.58 : UIScreen.main.bounds.height * 0.38 )
+                .aspectRatio(contentMode: .fit)
+            LinearGradient(colors: [.clear,.black], startPoint: .center, endPoint: .bottom)
+                .frame(height: 100)
+                .frame(maxWidth: .infinity)
+        
+           
         }
     }
     private var nameTag:some View{
@@ -82,6 +113,14 @@ extension SingleMovieView{
             Text(singleMovieData?.tagline.uppercased() ?? "place holder")
                 .font(Font.custom("Montserrat-Regular", size: 14))
                 .foregroundStyle(LinearGradient(colors: [.green,.cyan], startPoint: .leading, endPoint: .trailing))
+            Text(singleMovieData?.status ?? "")
+                .font(Font.custom("Montserrat-Bold", size: 12))
+                .foregroundStyle(Color.white)
+                .padding(5)
+                .background(Color.cyan)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .padding(.vertical,5)
+                
         }
     }
     private var TMDBRatingView:some View{
@@ -117,7 +156,7 @@ extension SingleMovieView{
                         .font(Font.custom("Montserrat-Regular", size: 14))
                         .padding(.horizontal)
                         .padding(.vertical,10)
-                        .background(Color.green.opacity(0.4))
+                        .background(Color.blue.opacity(0.22))
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             }
@@ -125,9 +164,23 @@ extension SingleMovieView{
             .scrollClipDisabled()
     }
     private var movieOverView:some View{
-        Text(singleMovieData?.overview ?? "place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder ")
-            .font(Font.custom("Montserrat-Regular", size: 14))
-            .foregroundStyle(Color.white)
+        VStack(alignment: .leading,spacing: 10){
+            Text(singleMovieData?.overview ?? "place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder place holder ")
+                .font(Font.custom("Montserrat-Regular", size: 14))
+                .lineLimit(textExpand ? nil : 5)
+                .foregroundStyle(Color.white)
+            Button(action: {
+                withAnimation {
+                    textExpand.toggle()
+                }
+                
+            }, label: {
+                Text(!textExpand ? "See more" : "See less")
+                    .font(.body)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.mint)
+            })
+        }
     }
     private var imageQualityChange:some View{
         HStack(spacing:.zero){
@@ -146,6 +199,26 @@ extension SingleMovieView{
 //                .foregroundStyle(Color.white)
 //                .fontWeight(.bold)
 //                .padding(.trailing,5)
+        }
+    }
+    private var onTabReminder:some View{
+        VStack(spacing:.zero){
+            Image(systemName: "chevron.up")
+                .resizable()
+                .frame(width: 10,height: 5)
+                .scaledToFit()
+                .foregroundStyle(Color.white)
+                
+            Image(systemName: "chevron.up")
+                .resizable()
+                .frame(width: 10,height: 5)
+                .scaledToFit()
+                .foregroundStyle(Color.white)
+            Text("Tab to exapand")
+                .foregroundStyle(Color.white)
+                .font(.system(size: 12))
+                .padding(.vertical,5)
+               
         }
     }
 //    private var qualityString:String {

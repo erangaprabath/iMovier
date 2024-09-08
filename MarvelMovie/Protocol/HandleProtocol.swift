@@ -12,7 +12,7 @@ enum networkEndpoint:APIProtocol{
     case getAllTvSeriesListByPage(pageNo:Int,isAdult:Bool)
     case getUserProfile(userId:Int)
     case getMovieGenre
-    case getMovieByMovieId(moiveID:Int)
+    case getMovieByMovieId(moiveID:Int,isCredits:Bool)
     
     var baseUrl: URL{
         guard let baseUrl = URL(string:"https://api.themoviedb.org") else{ fatalError()}
@@ -29,8 +29,14 @@ enum networkEndpoint:APIProtocol{
             return "/3/account/\(userId)"
         case .getMovieGenre:
             return "/3/genre/movie/list"
-        case .getMovieByMovieId(let moiveID):
-            return "/3/movie/\(moiveID)"
+            case .getMovieByMovieId(let moiveID,let isCredits):
+                switch isCredits{
+                    case true:
+                        return "/3/movie/\(moiveID)/credits"
+                    case false:
+                        return "/3/movie/\(moiveID)"
+                }
+           
         }
     }
     

@@ -62,7 +62,7 @@ extension PopularMovieView{
                 Text("\(singleMoive.title)")
                     .textCase(.uppercase)
                     .font(Font.custom("Montserrat-Bold", size: 14))
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color.mint)
                 
             }
         }

@@ -27,8 +27,8 @@ struct FilmCardView: View {
           
         }
         .padding(5)
-        .background(.blue.opacity(0.1))
-        .cornerRadius(20)
+        .background(.blue.opacity(0.22))
+        .cornerRadius(10)
         
     }
 }

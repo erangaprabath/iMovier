@@ -22,6 +22,7 @@ struct MovieDashboardView: View {
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity)
             MovieGenreView(dashboardViewModel: dashboardViewModel)
+                .padding(5)
          
             List{
             popMovieSection
@@ -40,10 +41,10 @@ struct MovieDashboardView: View {
         }.background(
             ZStack{ 
                
-                Image("background")
-                    .resizable()
-                    .ignoresSafeArea()
-                Color.black.opacity(0.85)
+//                Image("background")
+//                    .resizable()
+//                    .ignoresSafeArea()
+                Color.black
                 .ignoresSafeArea()
 //
             })
@@ -92,6 +93,7 @@ extension MovieDashboardView{
                             FilmCardView(singleMovie:singleMovie)
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
                                 .onTapGesture {
+                                    selectedMoiveID = singleMovie.id
                                     singleMovieView = true
                                 }.onAppear(perform: {
                                     if singleMovie.id == dashboardViewModel.tvSeriesDataSet.last?.id{

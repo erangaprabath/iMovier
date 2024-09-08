@@ -7,28 +7,51 @@
 
 import Foundation
 
-class SingleMovieViewModel:ObservableObject{
+final class SingleMovieViewModel:ObservableObject{
     
     private let networkManager = NetworkManager<networkEndpoint>()
-    private let getSingleMovieService:GetSingleMovieService
-    @Published var movieMainDeitails:SingleMovieModel? = nil
+    private let getSingleMovieService:TmdbDataDownloadServices
+    @Published private(set) var movieMainDeitails:SingleMovieModel? = nil
+    @Published private(set) var movieCastAndCrew:CastAndCrewModel? = nil
+    private var tasks:[Task<Void ,Never>] = []
     
     init() {
-        self.getSingleMovieService = GetSingleMovieService(networkManger: networkManager)
+        self.getSingleMovieService = TmdbDataDownloadServices(networkmanager: networkManager)
+    }
+    func cancelTask(){
+        tasks.forEach({$0.cancel()})
+        tasks = []
     }
     
-    func mapSingleMovieDetals(movieId:Int)async{
-        Task {@MainActor [weak self] in
-            let singleMoiveData = await self?.getSingleMovieService.downloadSingleMovieData(movieID: movieId)
-            switch singleMoiveData {
-                case .success(let singleMovie):
-                    self?.movieMainDeitails = singleMovie
-                case .failure(let failure):
-                    print(failure)
-                case .none:
-                    print("")
-            }
+    func mapSingleMovieDetals(movieId:Int) async {
+       let task = Task {@MainActor  in
+            let singleMoiveData = await getSingleMovieService.downloadSingleMovieData(movieID: movieId)
+            mapMovieData(singleMoiveData: singleMoiveData)
+            let singleMoiveCastAndCrewData = await getSingleMovieService.downloadSingleMovieCastAndCrew(movieID: movieId)
+            mapMovieCrewData(singleMoiveCastAndCrewData: singleMoiveCastAndCrewData)
             
+        }
+        tasks.append(task)
+        
+    }
+    private func mapMovieData(singleMoiveData:Result<SingleMovieModel,APIError>?){
+        switch singleMoiveData {
+            case .success(let singleMovie):
+                self.movieMainDeitails = singleMovie
+            case .failure(let failure):
+                print(failure)
+            case .none:
+                print("Unknown Error")
+        }
+    }
+    private func mapMovieCrewData(singleMoiveCastAndCrewData:Result<CastAndCrewModel,APIError>?){
+        switch singleMoiveCastAndCrewData {
+            case .success(let singleMovie):
+                self.movieCastAndCrew = singleMovie
+            case .failure(let failure):
+                print(failure)
+            case .none:
+                print("Unknown Error")
         }
     }
 }

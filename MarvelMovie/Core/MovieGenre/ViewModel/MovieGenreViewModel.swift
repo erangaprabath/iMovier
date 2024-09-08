@@ -10,13 +10,13 @@ import Foundation
 class MovieGenreViewModel:ObservableObject{
     
     private let networkManager = NetworkManager<networkEndpoint>()
-    private let getMovieGenre:MovieGenreService
+    private let getMovieGenre:TmdbDataDownloadServices
     @Published var genreData:MovieGenreModel? = nil
     
     private var dashBoardViewModel:DashboardViewModel
     
     init(dashBoardViewModel:DashboardViewModel) {
-        self.getMovieGenre = MovieGenreService(networkMager: networkManager)
+        self.getMovieGenre = TmdbDataDownloadServices(networkmanager: networkManager)
         self.dashBoardViewModel = dashBoardViewModel
         Task{ await mapMovieGenre() }
     }
