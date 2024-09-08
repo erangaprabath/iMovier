@@ -16,7 +16,7 @@ class MovieGenreViewModel:ObservableObject{
     private var dashBoardViewModel:DashboardViewModel
     
     init(dashBoardViewModel:DashboardViewModel) {
-        self.getMovieGenre = TmdbDataDownloadServices(networkmanger: networkManager)
+        self.getMovieGenre = TmdbDataDownloadServices(networkmanager: networkManager)
         self.dashBoardViewModel = dashBoardViewModel
         Task{ await mapMovieGenre() }
     }

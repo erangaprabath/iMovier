@@ -25,41 +25,35 @@ struct SingleMovieView: View {
         self.movieId = movieId
     }
     var body: some View {
-        VStack(spacing:.zero){
-            ZStack(alignment:.bottomTrailing){
+        ZStack (alignment: .topLeading){
+            VStack(spacing:.zero){
                 mainImageView
                     .background(Color.black)
-            }
-            ZStack(alignment:.topLeading) {
-                Rectangle()
-                    .ignoresSafeArea()
-                .frame(height: !viewExpand ? UIScreen.main.bounds.height * 0.45 : UIScreen.main.bounds.height * 0.68)
+//                ZStack(alignment:.topLeading) {
+//                    Rectangle()
+//                        .ignoresSafeArea()
+                        
                     detailsView
-                    .onTapGesture {
-                        withAnimation {
-                            animatorDisplay = false
-                            viewExpand.toggle()
+                    .background(Color.black)
+                        .onTapGesture {
+                            withAnimation {
+                                animatorDisplay = false
+                                viewExpand.toggle()
+                            }
+                            
                         }
-                    
-                    }
+//                }
             }
-        }.onAppear(perform: {
-            Task{
-                await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId)
-            }
+            BackButtonView()
+                .padding(.top,70)
+                .padding(.leading,20)
+        }.task{
+            await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId)
             
-        }).onReceive(singleMovieViewModel.$movieMainDeitails, perform: { newValue in
-                self.singleMovieData = newValue
+        }.onReceive(singleMovieViewModel.$movieMainDeitails, perform: { newValue in
+            self.singleMovieData = newValue
         }).navigationBarBackButtonHidden()
-            .overlay {
-                if singleMovieData == nil{
-                    ContentUnavailableView(label: {
-                        Label("No movie", systemImage: "movieclapper.fill")
-                    },description: {
-                       Text("This movie data not available at the moment")
-                    }).background(Color.white)
-                }
-            }
+            .ignoresSafeArea()
     }
 }
 extension SingleMovieView{
@@ -100,18 +94,14 @@ extension SingleMovieView{
     }
     private var mainImageView:some View{
         ZStack(alignment:.bottom){
-            KFImage(URL(string: "\(String.posterBaseUrl(quality: "500"))\(singleMovieData?.posterPath ?? "place holder")"))
+            KFImage(URL(string: "\(String.posterBaseUrl(quality: "500"))\( !viewExpand ? singleMovieData?.posterPath ?? "" : singleMovieData?.backdropPath ?? "place holder")"))
                 .resizable()
                 .frame(height: !viewExpand ? UIScreen.main.bounds.height * 0.58 : UIScreen.main.bounds.height * 0.38 )
-                .aspectRatio(contentMode:.fit)
-                .ignoresSafeArea()
+                .aspectRatio(contentMode: .fit)
             LinearGradient(colors: [.clear,.black], startPoint: .center, endPoint: .bottom)
                 .frame(height: 100)
                 .frame(maxWidth: .infinity)
-            BackButtonView()
-            .frame(maxWidth: .infinity ,maxHeight: .infinity,alignment: .topLeading)
-            .padding(.top,70)
-            .padding(.leading,20)
+        
            
         }
     }

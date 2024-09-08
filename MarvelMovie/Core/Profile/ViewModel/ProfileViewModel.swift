@@ -14,7 +14,7 @@ class ProfileViewModel:ObservableObject{
     @Published var profile:ProfileModel? = nil
     
     init() {
-        self.profileData = TmdbDataDownloadServices(networkmanger: networkManger)
+        self.profileData = TmdbDataDownloadServices(networkmanager: networkManger)
         Task{ await mapUserProfile() }
     }
     

@@ -11,21 +11,28 @@ final class SingleMovieViewModel:ObservableObject{
     
     private let networkManager = NetworkManager<networkEndpoint>()
     private let getSingleMovieService:TmdbDataDownloadServices
-    @Published var movieMainDeitails:SingleMovieModel? = nil
-    @Published var movieCastAndCrew:CastAndCrewModel? = nil
+    @Published private(set) var movieMainDeitails:SingleMovieModel? = nil
+    @Published private(set) var movieCastAndCrew:CastAndCrewModel? = nil
+    private var tasks:[Task<Void ,Never>] = []
     
     init() {
-        self.getSingleMovieService = TmdbDataDownloadServices(networkmanger: networkManager)
+        self.getSingleMovieService = TmdbDataDownloadServices(networkmanager: networkManager)
+    }
+    func cancelTask(){
+        tasks.forEach({$0.cancel()})
+        tasks = []
     }
     
-    func mapSingleMovieDetals(movieId:Int)async{
-        Task {@MainActor [weak self] in
-            let singleMoiveData = await self?.getSingleMovieService.downloadSingleMovieData(movieID: movieId)
-            self?.mapMovieData(singleMoiveData: singleMoiveData)
-            let singleMoiveCastAndCrewData = await self?.getSingleMovieService.downloadSingleMovieCastAndCrew(movieID: movieId)
-            self?.mapMovieCrewData(singleMoiveCastAndCrewData: singleMoiveCastAndCrewData)
+    func mapSingleMovieDetals(movieId:Int) async {
+       let task = Task {@MainActor  in
+            let singleMoiveData = await getSingleMovieService.downloadSingleMovieData(movieID: movieId)
+            mapMovieData(singleMoiveData: singleMoiveData)
+            let singleMoiveCastAndCrewData = await getSingleMovieService.downloadSingleMovieCastAndCrew(movieID: movieId)
+            mapMovieCrewData(singleMoiveCastAndCrewData: singleMoiveCastAndCrewData)
             
         }
+        tasks.append(task)
+        
     }
     private func mapMovieData(singleMoiveData:Result<SingleMovieModel,APIError>?){
         switch singleMoiveData {

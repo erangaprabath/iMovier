@@ -8,7 +8,6 @@
 import Foundation
 
 class DashboardViewModel:ObservableObject{
-    
     @Published var errors:Error? = nil
     @Published var viewIsLoaded:Bool = false
     @Published var movieDataSet:[FilmCardDataModel] = []
@@ -17,16 +16,11 @@ class DashboardViewModel:ObservableObject{
     private var tvSeriesPageNo:Int = 1
     private var isFilterActive:Bool = false
     private var genreId:Int = 0
-    
     private let networkManager = NetworkManager<networkEndpoint>()
-    
     private let allFilmService:TmdbDataDownloadServices
-//    private let allTvSeriesService:AllFilmService
-    
     
     init(){
-        self.allFilmService = TmdbDataDownloadServices(networkmanger: networkManager)
-//        self.allTvSeriesService = AllTvSeriesService(networkManager: networkManager)
+        self.allFilmService = TmdbDataDownloadServices(networkmanager: networkManager)
         manageDataBinding()
     }
     
@@ -49,9 +43,7 @@ class DashboardViewModel:ObservableObject{
     }
 
    private func mapMovies()async{
-        
         Task{ @MainActor in
-          
             let movieData = await self.allFilmService.downloadAllFilmData(pageNo: moviePageNo)
             switch movieData{
                 case .success(let recievedMovieData):
@@ -114,7 +106,6 @@ class DashboardViewModel:ObservableObject{
     }
     
     func filterMovieByGenreId(genreId:Int){
-     
         self.isFilterActive = true
         self.genreId = genreId
         let filtedMovies = self.movieDataSet.filter({$0.genreIds.contains(genreId)})

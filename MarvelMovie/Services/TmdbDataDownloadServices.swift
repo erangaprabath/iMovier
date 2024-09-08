@@ -10,21 +10,18 @@ import Foundation
 actor TmdbDataDownloadServices{
     private var networkManager:NetworkManager<networkEndpoint>
     
-    init(networkmanger: NetworkManager<networkEndpoint>) {
-        self.networkManager = networkmanger
+    init(networkmanager: NetworkManager<networkEndpoint>) {
+        self.networkManager = networkmanager
     }
     
     func downloadAllFilmData(pageNo:Int) async -> Result<MovieModel,Error>{
-     
         let allMovies = networkEndpoint.getAllMovieListByPage(pageNo: pageNo, isAdult: true, includeVideo: true)
         do {
             let fetchData:MovieModel = try await networkManager.downloadData(endpoints: allMovies)
             return .success(fetchData)
-            
         }catch{
             return.failure(error)
         }
-        
     }
     func donwloadAllTvSeries(pageNo:Int) async -> Result<AllTvSeriesModel,Error>{
         let allTvSeries = networkEndpoint.getAllTvSeriesListByPage(pageNo: pageNo, isAdult: true)
