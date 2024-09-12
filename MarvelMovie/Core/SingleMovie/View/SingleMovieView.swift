@@ -17,6 +17,7 @@ struct SingleMovieView: View {
     @State private var animatorDisplay:Bool = true
     @State private var singleMovieData:SingleMovieAndTvSeiresModel? = nil
     @State private var changeImageQuality:Bool = false
+    @State private var isFavorite:Bool = false
     private var movieId:Int
     private var isMovie:Bool
     
@@ -39,9 +40,12 @@ struct SingleMovieView: View {
                         
                     }
             }
-            BackButtonView()
-                .padding(.top,50)
-                .padding(.leading,20)
+            HStack{
+                BackButtonView()
+                Spacer()
+                favoirte
+            } .padding(.top,50)
+            .padding(.horizontal,20)
         }.task{
             print(isMovie.description)
             await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId, isMovie: isMovie)
@@ -218,6 +222,32 @@ extension SingleMovieView{
                 .padding(.vertical,5)
                
         }
+    }
+    private var favoirte:some View{
+            
+            VStack{
+                Image(systemName:!isFavorite ? "heart" : "heart.fill")
+                    .resizable()
+                    .renderingMode(.template)
+                    .scaledToFit()
+                    .frame(width: 20,height: 20)
+                    .foregroundStyle(!isFavorite ? Color.white : Color.mint)
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+                    .background(Color.white.opacity(0.4))
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .onTapGesture {
+                        withAnimation {
+                            isFavorite.toggle()
+                            Task {
+                                await singleMovieViewModel.setFavMoive(favMovieData:AddFavMovie(mediaType: "movie", mediaID: singleMovieData?.id ?? 0, favorite: true))
+                            }
+                        }
+                       
+                    }
+            }
+     
+      
     }
 //    private var qualityString:String {
 //        if changeImageQuality {

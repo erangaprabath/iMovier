@@ -33,8 +33,10 @@ class NetworkManager <ApiProtocolType:APIProtocol>:APIClientHook{
             }catch{
                 throw APIError.requestFailed
             }
+            print(parameters)
         }
         print(request)
+      
         do{
             let (data,response) = try await URLSession.shared.data(for: request)
             

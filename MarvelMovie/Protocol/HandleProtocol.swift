@@ -14,6 +14,7 @@ enum networkEndpoint:APIProtocol{
     case getMovieGenre
     case getMovieByMovieId(moiveID:Int,isCredits:Bool,isMovie:Bool)
     case getPopularMovieList
+    case setFavMovies(movieFav:AddFavMovie)
     
     var baseUrl: URL{
         guard let baseUrl = URL(string:"https://api.themoviedb.org") else{ fatalError()}
@@ -51,6 +52,8 @@ enum networkEndpoint:APIProtocol{
                 
             case .getPopularMovieList:
                 return "/3/movie/popular"
+            case .setFavMovies:
+                return"/3/account/\(21476694)/favorite"
         }
     }
     
@@ -68,11 +71,14 @@ enum networkEndpoint:APIProtocol{
                 return .get
             case .getPopularMovieList:
                 return .get
+            case .setFavMovies:
+                return .post
         }
     }
     
     var headers: [String : String]?{
         return [
+            "content-type": "application/json",
             "Authorization" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MmU4MjI2MzY4ZTRmYWJiNmQ5OWNmNWEyNTI2YzlkYSIsIm5iZiI6MTcyNTEwMzM5Mi45ODUzNDIsInN1YiI6IjY2ZDJmYzAxMzY1MDk3YTQ1YzAwNTJiZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.neHf13BO1FK9ZUo1FsbeEHQsBEDzSayhhySYHvC7Ygk",
             "accept" : "application/json"
         ]
@@ -109,6 +115,14 @@ enum networkEndpoint:APIProtocol{
             ]
             case .getPopularMovieList:
                 return nil
+            case .setFavMovies(movieFav: let movieListOfFav):
+                return [
+                    
+                    "media_type" : movieListOfFav.mediaType,
+                    "media_id" : movieListOfFav.mediaID,
+                    "favorite" : movieListOfFav.favorite
+                
+                ]
         }
     }
     

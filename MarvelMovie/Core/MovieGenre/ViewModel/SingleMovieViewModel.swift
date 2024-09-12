@@ -54,4 +54,17 @@ final class SingleMovieViewModel:ObservableObject{
                 print("Unknown Error")
         }
     }
+    func setFavMoive(favMovieData:AddFavMovie) async{
+        let task = Task{ @MainActor in
+            let successMessage = await getSingleMovieService.uploadFavMovie(favMovieData:favMovieData)
+            switch successMessage {
+                case .success(let success):
+                    print(success)
+                case .failure(let failure):
+                    print(failure)
+            }
+            
+        }
+        tasks.append(task)
+    }
 }

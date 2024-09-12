@@ -79,4 +79,13 @@ actor TmdbDataDownloadServices{
         }
         
     }
+    func uploadFavMovie(favMovieData:AddFavMovie) async -> Result<SuccessModel,APIError>{
+        let apiEdnPoint = networkEndpoint.setFavMovies(movieFav: favMovieData)
+        do{
+            let fetchData:SuccessModel = try await networkManager.downloadData(endpoints: apiEdnPoint)
+            return .success(fetchData)
+        }catch{
+            return.failure(APIError.decodingError(error: error))
+        }
+    }
 }

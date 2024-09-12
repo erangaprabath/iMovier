@@ -28,7 +28,7 @@ struct MovieDashboardView: View {
             List{
                 Section(section: "Popular")
                     .listRowBackground(Color.clear)
-            popMovieSection
+                popMovieSection
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                 Section(section: "Movies")
@@ -44,10 +44,10 @@ struct MovieDashboardView: View {
         }.background(
             ZStack{ 
                
-//                Image("background")
-//                    .resizable()
-//                    .ignoresSafeArea()
-                Color.black
+                Image("background")
+                    .resizable()
+                    .ignoresSafeArea()
+                Color.black.opacity(0.97)
                 .ignoresSafeArea()
 //
             })
@@ -79,7 +79,7 @@ extension MovieDashboardView{
                                     }
                                 }.onAppear(perform: {
                                     if singleMovie.id == dashboardViewModel.movieDataSet.last?.id{
-                                        dashboardViewModel.loadMoreData(isTvSeries: false)
+                                        dashboardViewModel.loadMoreData(isTvSeries: true)
                                     }
                                     
                                 })
