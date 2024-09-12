@@ -105,5 +105,5 @@ extension FilmCardView{
 
 #Preview {
 //    FilmCardView(singleMovie: <#MoviewResult#>, imageUrl: "https://i.redd.it/i6fuvkjuga7c1.jpeg", random: true)
-    MovieDashboardView()
+    MovieDashboardView(isSearch: true)
 }

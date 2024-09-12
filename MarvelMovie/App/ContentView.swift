@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var startApp:Bool = false
+    @StateObject private var appStateManager = AppState()
     var body: some View {
         NavigationStack{
             SplashScreen(posterUrl: "")
@@ -18,7 +19,8 @@ struct ContentView: View {
                     }
                 })
                 .navigationDestination(isPresented: $startApp) {
-                    MovieDashboardView()
+                  ApplicationBase()
+                        .environmentObject(appStateManager)
                         .navigationBarBackButtonHidden()
                 }
           

@@ -17,6 +17,8 @@ struct MovieDashboardView: View {
     @State private var selectedMoiveID:Int? = nil
     @State private var appearedPopMovieId:Int = 0
     @State private var isTvSeries:Bool = false
+    var isSearch:Bool = false
+    @State private var searchText:String = ""
     var body: some View {
         VStack(alignment: .leading){
           ProfileSection()
@@ -39,6 +41,8 @@ struct MovieDashboardView: View {
                 tvSeriesSection
             }.scrollIndicators(.never)
                 .listStyle(.plain)
+                .searchable(text: $searchText,prompt: "Search")
+                .foregroundStyle(Color.white)
                
             
         }.background(
