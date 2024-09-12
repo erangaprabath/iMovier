@@ -11,7 +11,7 @@ final class SingleMovieViewModel:ObservableObject{
     
     private let networkManager = NetworkManager<networkEndpoint>()
     private let getSingleMovieService:TmdbDataDownloadServices
-    @Published private(set) var movieMainDeitails:SingleMovieModel? = nil
+    @Published private(set) var movieMainDeitails:SingleMovieAndTvSeiresModel? = nil
     @Published private(set) var movieCastAndCrew:CastAndCrewModel? = nil
     private var tasks:[Task<Void ,Never>] = []
     
@@ -23,18 +23,18 @@ final class SingleMovieViewModel:ObservableObject{
         tasks = []
     }
     
-    func mapSingleMovieDetals(movieId:Int) async {
+    func mapSingleMovieDetals(movieId:Int,isMovie:Bool) async {
        let task = Task {@MainActor  in
-            let singleMoiveData = await getSingleMovieService.downloadSingleMovieData(movieID: movieId)
+           let singleMoiveData = await getSingleMovieService.downloadSingleMovieData(movieID: movieId, isMovie: isMovie)
             mapMovieData(singleMoiveData: singleMoiveData)
-            let singleMoiveCastAndCrewData = await getSingleMovieService.downloadSingleMovieCastAndCrew(movieID: movieId)
+           let singleMoiveCastAndCrewData = await getSingleMovieService.downloadSingleMovieCastAndCrew(movieID: movieId, isMoive: isMovie)
             mapMovieCrewData(singleMoiveCastAndCrewData: singleMoiveCastAndCrewData)
             
         }
         tasks.append(task)
         
     }
-    private func mapMovieData(singleMoiveData:Result<SingleMovieModel,APIError>?){
+    private func mapMovieData(singleMoiveData:Result<SingleMovieAndTvSeiresModel,APIError>?){
         switch singleMoiveData {
             case .success(let singleMovie):
                 self.movieMainDeitails = singleMovie
@@ -53,5 +53,18 @@ final class SingleMovieViewModel:ObservableObject{
             case .none:
                 print("Unknown Error")
         }
+    }
+    func setFavMoive(favMovieData:AddFavMovie) async{
+        let task = Task{ @MainActor in
+            let successMessage = await getSingleMovieService.uploadFavMovie(favMovieData:favMovieData)
+            switch successMessage {
+                case .success(let success):
+                    print(success)
+                case .failure(let failure):
+                    print(failure)
+            }
+            
+        }
+        tasks.append(task)
     }
 }

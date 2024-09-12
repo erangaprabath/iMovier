@@ -28,7 +28,7 @@ struct AllTvSeriesModelResult: Codable {
     let originCountry: [String]
     let originalLanguage, originalName, overview: String
     let popularity: Double
-    let posterPath, firstAirDate, name: String
+    let posterPath, firstAirDate, name: String?
     let voteAverage: Double
     let voteCount: Int
 

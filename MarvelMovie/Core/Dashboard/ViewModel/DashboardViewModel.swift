@@ -16,12 +16,19 @@ class DashboardViewModel:ObservableObject{
     private var tvSeriesPageNo:Int = 1
     private var isFilterActive:Bool = false
     private var genreId:Int = 0
-    private let networkManager = NetworkManager<networkEndpoint>()
-    private let allFilmService:TmdbDataDownloadServices
+    let networkManager = NetworkManager<networkEndpoint>()
+    let allFilmService:TmdbDataDownloadServices
+    var tasks:[Task<Void ,Never>] = []
+    
     
     init(){
         self.allFilmService = TmdbDataDownloadServices(networkmanager: networkManager)
-        manageDataBinding()
+    }
+    func cancelTasks(){
+        tasks.forEach({$0.cancel()})
+        print("Task has been canceled")
+        tasks = []
+        
     }
     
     func manageDataBinding(){
@@ -32,8 +39,8 @@ class DashboardViewModel:ObservableObject{
             viewIsLoaded = true
         }
     }
-    func loadMoreData(isMovie:Bool){
-        if isMovie{
+    func loadMoreData(isTvSeries:Bool){
+        if isTvSeries{
             moviePageNo = moviePageNo + 1
             Task{ await mapMovies() }
         }else{
@@ -80,8 +87,8 @@ class DashboardViewModel:ObservableObject{
     private func mapTvSeriesViewData(recivedData: AllTvSeriesModelResult) -> FilmCardDataModel{
         FilmCardDataModel(
             id: recivedData.id,
-            posterPath: recivedData.posterPath,
-            title: recivedData.name,
+            posterPath: recivedData.posterPath ?? "",
+            title: recivedData.name ?? "",
             voteAvarage: recivedData.voteAverage,
             pop: recivedData.popularity,
             language: recivedData.originalLanguage,
@@ -111,7 +118,7 @@ class DashboardViewModel:ObservableObject{
         let filtedMovies = self.movieDataSet.filter({$0.genreIds.contains(genreId)})
         _ = self.tvSeriesDataSet.filter({$0.genreIds.contains(genreId)})
         if filtedMovies.isEmpty{
-            loadMoreData(isMovie: true)
+            loadMoreData(isTvSeries: true)
         }
         self.movieDataSet = filtedMovies
         print("FILTER BY GENRE ID \(genreId) \(filtedMovies)")

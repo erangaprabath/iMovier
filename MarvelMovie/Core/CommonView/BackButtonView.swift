@@ -17,9 +17,9 @@ struct BackButtonView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 20,height: 20)
-                .foregroundStyle(Color.white)
+                .foregroundStyle(Color.mint)
                 .padding(10)
-                .background(Color.mint.opacity(0.7))
+                .background(Color.white.opacity(0.4))
                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
         })
     }

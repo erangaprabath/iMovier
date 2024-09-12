@@ -8,28 +8,28 @@
 import Foundation
 
 
-struct SingleMovieModel: Codable {
+struct SingleMovieAndTvSeiresModel: Codable {
     let adult: Bool
-    let backdropPath: String
+    let backdropPath: String?
     let belongsToCollection: BelongsToCollection?
-    let budget: Int
+    let budget: Int?
     let genres: [Genre]
     let homepage: String
     let id: Int
-    let imdbID: String
+    let imdbID: String?
     let originCountry: [String]
-    let originalLanguage, originalTitle, overview: String
+    let originalLanguage, originalTitle, overview: String?
     let popularity: Double
     let posterPath: String
     let productionCompanies: [ProductionCompany]
     let productionCountries: [ProductionCountry]
-    let releaseDate: String
-    let revenue, runtime: Int
+    let releaseDate: String?
+    let revenue, runtime: Int?
     let spokenLanguages: [SpokenLanguage]
-    let status, tagline, title: String
-    let video: Bool
-    let voteAverage: Double
-    let voteCount: Int
+    let status, tagline, title: String?
+    let video: Bool?
+    let voteAverage: Double?
+    let voteCount: Int?
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -55,7 +55,7 @@ struct SingleMovieModel: Codable {
 
 struct BelongsToCollection: Codable {
     let id: Int
-    let name, posterPath, backdropPath: String
+    let name, posterPath, backdropPath: String?
 
     enum CodingKeys: String, CodingKey {
         case id, name

@@ -15,40 +15,40 @@ struct SingleMovieView: View {
     @State private var viewExpand:Bool = false
     @State private var animate:Bool = false
     @State private var animatorDisplay:Bool = true
-    @State private var singleMovieData:SingleMovieModel? = nil
+    @State private var singleMovieData:SingleMovieAndTvSeiresModel? = nil
     @State private var changeImageQuality:Bool = false
-
+    @State private var isFavorite:Bool = false
     private var movieId:Int
+    private var isMovie:Bool
     
-   
-    init(movieId:Int){
+    init(movieId:Int,isMovie:Bool){
         self.movieId = movieId
+        self.isMovie = isMovie
     }
     var body: some View {
         ZStack (alignment: .topLeading){
             VStack(spacing:.zero){
                 mainImageView
                     .background(Color.black)
-//                ZStack(alignment:.topLeading) {
-//                    Rectangle()
-//                        .ignoresSafeArea()
-                        
                     detailsView
                     .background(Color.black)
-                        .onTapGesture {
-                            withAnimation {
-                                animatorDisplay = false
-                                viewExpand.toggle()
-                            }
-                            
+                    .onTapGesture {
+                        withAnimation {
+                            animatorDisplay = false
+                            viewExpand.toggle()
                         }
-//                }
+                        
+                    }
             }
-            BackButtonView()
-                .padding(.top,70)
-                .padding(.leading,20)
+            HStack{
+                BackButtonView()
+                Spacer()
+                favoirte
+            } .padding(.top,50)
+            .padding(.horizontal,20)
         }.task{
-            await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId)
+            print(isMovie.description)
+            await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId, isMovie: isMovie)
             
         }.onReceive(singleMovieViewModel.$movieMainDeitails, perform: { newValue in
             self.singleMovieData = newValue
@@ -94,23 +94,25 @@ extension SingleMovieView{
     }
     private var mainImageView:some View{
         ZStack(alignment:.bottom){
-            KFImage(URL(string: "\(String.posterBaseUrl(quality: "500"))\( !viewExpand ? singleMovieData?.posterPath ?? "" : singleMovieData?.backdropPath ?? "place holder")"))
+            KFImage(URL(string: "\(String.posterBaseUrl(quality: "500"))\(singleMovieData?.posterPath ?? "")"))
                 .resizable()
-                .frame(height: !viewExpand ? UIScreen.main.bounds.height * 0.58 : UIScreen.main.bounds.height * 0.38 )
-                .aspectRatio(contentMode: .fit)
+                .placeholder({ Progress in
+                    Image("car")
+                        .resizable()
+                        .scaledToFit()
+                })
+                .aspectRatio(contentMode: .fill)
+                .frame(width: UIScreen.main.bounds.width,height: !viewExpand ? UIScreen.main.bounds.height * 0.58 : UIScreen.main.bounds.height * 0.38)
             LinearGradient(colors: [.clear,.black], startPoint: .center, endPoint: .bottom)
                 .frame(height: 100)
-                .frame(maxWidth: .infinity)
-        
-           
         }
     }
     private var nameTag:some View{
         VStack(alignment:.leading){
-            Text(singleMovieData?.title.uppercased() ?? "place holder")
+            Text(singleMovieData?.title?.uppercased() ?? "place holder")
                 .font(Font.custom("Montserrat-Bold", size: 25))
                 .foregroundStyle(Color.white)
-            Text(singleMovieData?.tagline.uppercased() ?? "place holder")
+            Text(singleMovieData?.tagline?.uppercased() ?? "place holder")
                 .font(Font.custom("Montserrat-Regular", size: 14))
                 .foregroundStyle(LinearGradient(colors: [.green,.cyan], startPoint: .leading, endPoint: .trailing))
             Text(singleMovieData?.status ?? "")
@@ -221,6 +223,32 @@ extension SingleMovieView{
                
         }
     }
+    private var favoirte:some View{
+            
+            VStack{
+                Image(systemName:!isFavorite ? "heart" : "heart.fill")
+                    .resizable()
+                    .renderingMode(.template)
+                    .scaledToFit()
+                    .frame(width: 20,height: 20)
+                    .foregroundStyle(!isFavorite ? Color.white : Color.mint)
+                    .aspectRatio(contentMode: .fit)
+                    .padding()
+                    .background(Color.white.opacity(0.4))
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .onTapGesture {
+                        withAnimation {
+                            isFavorite.toggle()
+                            Task {
+                                await singleMovieViewModel.setFavMoive(favMovieData:AddFavMovie(mediaType: "movie", mediaID: singleMovieData?.id ?? 0, favorite: true))
+                            }
+                        }
+                       
+                    }
+            }
+     
+      
+    }
 //    private var qualityString:String {
 //        if changeImageQuality {
 //            return "500"
@@ -231,5 +259,5 @@ extension SingleMovieView{
 }
 
 #Preview {
-    SingleMovieView(movieId: 533535)
+    SingleMovieView(movieId: 533535, isMovie: false)
 }
