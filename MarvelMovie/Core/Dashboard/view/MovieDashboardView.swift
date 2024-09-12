@@ -16,6 +16,7 @@ struct MovieDashboardView: View {
     @State private var singleMovieView:Bool = false
     @State private var selectedMoiveID:Int? = nil
     @State private var appearedPopMovieId:Int = 0
+    @State private var isTvSeries:Bool = false
     var body: some View {
         VStack(alignment: .leading){
           ProfileSection()
@@ -25,6 +26,8 @@ struct MovieDashboardView: View {
                 .padding(5)
          
             List{
+                Section(section: "Popular")
+                    .listRowBackground(Color.clear)
             popMovieSection
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
@@ -48,9 +51,14 @@ struct MovieDashboardView: View {
                 .ignoresSafeArea()
 //
             })
-        .navigationDestination(isPresented: $singleMovieView) {
-            SingleMovieView(movieId:selectedMoiveID ?? 0)
+        .task {
+            dashboardViewModel.manageDataBinding()
         }
+        .navigationDestination(isPresented: $singleMovieView) {
+            SingleMovieView(movieId:selectedMoiveID ?? 0, isMovie: isTvSeries)
+        }.onDisappear(perform: {
+            dashboardViewModel.cancelTasks()
+        })
        
     }
 }
@@ -64,13 +72,14 @@ extension MovieDashboardView{
                                
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
                                 .onTapGesture {
+                                    isTvSeries = false
                                     selectedMoiveID = singleMovie.id
                                     if selectedMoiveID != nil{
                                         singleMovieView = true
                                     }
                                 }.onAppear(perform: {
                                     if singleMovie.id == dashboardViewModel.movieDataSet.last?.id{
-                                        dashboardViewModel.loadMoreData(isMovie: true)
+                                        dashboardViewModel.loadMoreData(isTvSeries: false)
                                     }
                                     
                                 })
@@ -93,11 +102,12 @@ extension MovieDashboardView{
                             FilmCardView(singleMovie:singleMovie)
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
                                 .onTapGesture {
+                                    isTvSeries = true
                                     selectedMoiveID = singleMovie.id
                                     singleMovieView = true
                                 }.onAppear(perform: {
                                     if singleMovie.id == dashboardViewModel.tvSeriesDataSet.last?.id{
-                                        dashboardViewModel.loadMoreData(isMovie: false)
+                                        dashboardViewModel.loadMoreData(isTvSeries: false)
                                     }
                                 })
                         }
@@ -115,8 +125,8 @@ extension MovieDashboardView{
         VStack{
             Text(section)
                 .foregroundStyle(Color.white)
-                .font(Font.custom("Montserrat-Regular", size: 25))
-                .fontWeight(.bold)
+                .font(Font.custom("Montserrat-Regular", size: 16))
+                .fontWeight(.regular)
         }
     }
     private var popMovieSection:some View{

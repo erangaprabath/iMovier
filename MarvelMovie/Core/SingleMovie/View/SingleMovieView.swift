@@ -15,40 +15,36 @@ struct SingleMovieView: View {
     @State private var viewExpand:Bool = false
     @State private var animate:Bool = false
     @State private var animatorDisplay:Bool = true
-    @State private var singleMovieData:SingleMovieModel? = nil
+    @State private var singleMovieData:SingleMovieAndTvSeiresModel? = nil
     @State private var changeImageQuality:Bool = false
-
     private var movieId:Int
+    private var isMovie:Bool
     
-   
-    init(movieId:Int){
+    init(movieId:Int,isMovie:Bool){
         self.movieId = movieId
+        self.isMovie = isMovie
     }
     var body: some View {
         ZStack (alignment: .topLeading){
             VStack(spacing:.zero){
                 mainImageView
                     .background(Color.black)
-//                ZStack(alignment:.topLeading) {
-//                    Rectangle()
-//                        .ignoresSafeArea()
-                        
                     detailsView
                     .background(Color.black)
-                        .onTapGesture {
-                            withAnimation {
-                                animatorDisplay = false
-                                viewExpand.toggle()
-                            }
-                            
+                    .onTapGesture {
+                        withAnimation {
+                            animatorDisplay = false
+                            viewExpand.toggle()
                         }
-//                }
+                        
+                    }
             }
             BackButtonView()
-                .padding(.top,70)
+                .padding(.top,50)
                 .padding(.leading,20)
         }.task{
-            await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId)
+            print(isMovie.description)
+            await singleMovieViewModel.mapSingleMovieDetals(movieId: movieId, isMovie: isMovie)
             
         }.onReceive(singleMovieViewModel.$movieMainDeitails, perform: { newValue in
             self.singleMovieData = newValue
@@ -94,23 +90,25 @@ extension SingleMovieView{
     }
     private var mainImageView:some View{
         ZStack(alignment:.bottom){
-            KFImage(URL(string: "\(String.posterBaseUrl(quality: "500"))\( !viewExpand ? singleMovieData?.posterPath ?? "" : singleMovieData?.backdropPath ?? "place holder")"))
+            KFImage(URL(string: "\(String.posterBaseUrl(quality: "500"))\(singleMovieData?.posterPath ?? "")"))
                 .resizable()
-                .frame(height: !viewExpand ? UIScreen.main.bounds.height * 0.58 : UIScreen.main.bounds.height * 0.38 )
-                .aspectRatio(contentMode: .fit)
+                .placeholder({ Progress in
+                    Image("car")
+                        .resizable()
+                        .scaledToFit()
+                })
+                .aspectRatio(contentMode: .fill)
+                .frame(width: UIScreen.main.bounds.width,height: !viewExpand ? UIScreen.main.bounds.height * 0.58 : UIScreen.main.bounds.height * 0.38)
             LinearGradient(colors: [.clear,.black], startPoint: .center, endPoint: .bottom)
                 .frame(height: 100)
-                .frame(maxWidth: .infinity)
-        
-           
         }
     }
     private var nameTag:some View{
         VStack(alignment:.leading){
-            Text(singleMovieData?.title.uppercased() ?? "place holder")
+            Text(singleMovieData?.title?.uppercased() ?? "place holder")
                 .font(Font.custom("Montserrat-Bold", size: 25))
                 .foregroundStyle(Color.white)
-            Text(singleMovieData?.tagline.uppercased() ?? "place holder")
+            Text(singleMovieData?.tagline?.uppercased() ?? "place holder")
                 .font(Font.custom("Montserrat-Regular", size: 14))
                 .foregroundStyle(LinearGradient(colors: [.green,.cyan], startPoint: .leading, endPoint: .trailing))
             Text(singleMovieData?.status ?? "")
@@ -231,5 +229,5 @@ extension SingleMovieView{
 }
 
 #Preview {
-    SingleMovieView(movieId: 533535)
+    SingleMovieView(movieId: 533535, isMovie: false)
 }

@@ -29,6 +29,7 @@ actor TmdbDataDownloadServices{
             let fetchData:AllTvSeriesModel = try await networkManager.downloadData(endpoints: allTvSeries)
             return.success(fetchData)
         }catch{
+            print(error)
             return .failure(error)
         }
     }
@@ -50,22 +51,32 @@ actor TmdbDataDownloadServices{
             return .failure(APIError.decodingError(error: error))
         }
     }
-    func downloadSingleMovieData(movieID:Int) async -> Result<SingleMovieModel,APIError>{
-        let apiEndPoint = networkEndpoint.getMovieByMovieId(moiveID: movieID, isCredits: false)
+    func downloadSingleMovieData(movieID:Int,isMovie:Bool) async -> Result<SingleMovieAndTvSeiresModel,APIError>{
+        let apiEndPoint = networkEndpoint.getMovieByMovieId(moiveID: movieID, isCredits: false, isMovie: isMovie)
         do{
-            let fetchData:SingleMovieModel = try await networkManager.downloadData(endpoints: apiEndPoint)
+            let fetchData:SingleMovieAndTvSeiresModel = try await networkManager.downloadData(endpoints: apiEndPoint)
             return .success(fetchData)
         }catch{
             return.failure(APIError.decodingError(error: error))
         }
     }
-    func downloadSingleMovieCastAndCrew(movieID:Int) async -> Result<CastAndCrewModel,APIError>{
-        let apiEndPoint = networkEndpoint.getMovieByMovieId(moiveID: movieID, isCredits: true)
+    func downloadSingleMovieCastAndCrew(movieID:Int,isMoive:Bool) async -> Result<CastAndCrewModel,APIError>{
+        let apiEndPoint = networkEndpoint.getMovieByMovieId(moiveID: movieID, isCredits: true, isMovie: isMoive)
         do{
             let fetchData:CastAndCrewModel = try await networkManager.downloadData(endpoints: apiEndPoint)
             return .success(fetchData)
         }catch{
             return.failure(APIError.decodingError(error: error))
         }
+    }
+    func downloadPopularMovieSet() async -> Result<MovieModel,APIError>{
+        let apiEndPoint = networkEndpoint.getPopularMovieList
+        do {
+            let fetchData:MovieModel  = try await networkManager.downloadData(endpoints: apiEndPoint)
+            return .success(fetchData)
+        }catch{
+            return.failure(APIError.decodingError(error: error))
+        }
+        
     }
 }

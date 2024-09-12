@@ -9,12 +9,14 @@ import SwiftUI
 import Kingfisher
 
 struct PopularMovieView: View {
-    @StateObject var popularViewModel:SinglePopularMovieViewModel
+    @StateObject var popularViewModel:PopularMovieViewModel
+    @State private var popularMovies:[FilmCardDataModel] = []
     @Binding var movieId:Int?
     @Binding var viewMovie:Bool
     
+    
     init(dashboardViewModel: DashboardViewModel,movieId:Binding<Int?>,viewMovie:Binding<Bool>) {
-        _popularViewModel = StateObject(wrappedValue: SinglePopularMovieViewModel(moviewViewModel: dashboardViewModel))
+        _popularViewModel = StateObject(wrappedValue: PopularMovieViewModel(moviewViewModel: dashboardViewModel))
         _movieId = movieId
         _viewMovie = viewMovie
     }
@@ -22,7 +24,7 @@ struct PopularMovieView: View {
     var body: some View {
         ScrollView(.horizontal){
             LazyHStack(spacing:.zero){
-                ForEach(popularViewModel.mapPopMovie(),id: \.id) {singlePopMovie in
+                ForEach(popularMovies,id: \.id) {singlePopMovie in
                     singleMoivePosterView(singleMoive: singlePopMovie)
                         .onTapGesture {
                             viewMovie.toggle()
@@ -43,10 +45,10 @@ struct PopularMovieView: View {
                         }
                 }
             }.scrollTargetLayout()
-        }
-            .scrollTargetBehavior(.viewAligned)
-        
-        
+        }.scrollTargetBehavior(.viewAligned)
+            .onReceive(popularViewModel.$popularMovies, perform: { newValue in
+                popularMovies = newValue
+            })
     }
 }
 extension PopularMovieView{
@@ -58,11 +60,11 @@ extension PopularMovieView{
                     .scaledToFill()
                     .frame(height: 200)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                
-                Text("\(singleMoive.title)")
-                    .textCase(.uppercase)
-                    .font(Font.custom("Montserrat-Bold", size: 14))
-                    .foregroundStyle(Color.mint)
+//                
+//                Text("\(singleMoive.title)")
+//                    .textCase(.uppercase)
+//                    .font(Font.custom("Montserrat-Bold", size: 14))
+//                    .foregroundStyle(Color.mint)
                 
             }
         }
