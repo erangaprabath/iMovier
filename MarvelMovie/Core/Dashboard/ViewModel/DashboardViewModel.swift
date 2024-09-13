@@ -8,7 +8,7 @@
 import Foundation
 
 class DashboardViewModel:ObservableObject{
-    @Published var errors:Error? = nil
+ 
     @Published var viewIsLoaded:Bool = false
     @Published var movieDataSet:[FilmCardDataModel] = []
     @Published var tvSeriesDataSet:[FilmCardDataModel] = []
@@ -16,29 +16,32 @@ class DashboardViewModel:ObservableObject{
     private var tvSeriesPageNo:Int = 1
     private var isFilterActive:Bool = false
     private var genreId:Int = 0
+    private var errors:Error? = nil
     let networkManager = NetworkManager<networkEndpoint>()
     let allFilmService:TmdbDataDownloadServices
     var tasks:[Task<Void ,Never>] = []
+ 
     
     
     init(){
         self.allFilmService = TmdbDataDownloadServices(networkmanager: networkManager)
     }
+    
     func cancelTasks(){
         tasks.forEach({$0.cancel()})
-        print("Task has been canceled")
         tasks = []
-        
     }
     
     func manageDataBinding(){
         viewIsLoaded = false
-        Task{
+        let task = Task{
             await mapMovies()
             await mapTvSeries()
-            viewIsLoaded = true
         }
+        viewIsLoaded = true
+        tasks.append(task)
     }
+    
     func loadMoreData(isTvSeries:Bool){
         if isTvSeries{
             moviePageNo = moviePageNo + 1
@@ -69,6 +72,7 @@ class DashboardViewModel:ObservableObject{
             }
         }
     }
+    
     private func mapTvSeries() async{
         Task{ @MainActor in
             let tvSeriesData = await self.allFilmService.donwloadAllTvSeries(pageNo: tvSeriesPageNo)
@@ -121,7 +125,6 @@ class DashboardViewModel:ObservableObject{
             loadMoreData(isTvSeries: true)
         }
         self.movieDataSet = filtedMovies
-        print("FILTER BY GENRE ID \(genreId) \(filtedMovies)")
 //        self.tvSeriesDataSet = filtedTvSeries
         
     }

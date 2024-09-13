@@ -21,7 +21,7 @@ class MovieGenreViewModel:ObservableObject{
         Task{ await mapMovieGenre() }
     }
     
-   private func mapMovieGenre()async{
+    func mapMovieGenre()async{
         
         Task{ @MainActor [weak self] in
             
@@ -38,7 +38,7 @@ class MovieGenreViewModel:ObservableObject{
         }
     }
     
-    func getFilterdFilms(genreId:Int) {
+    @MainActor func getFilterdFilms(genreId:Int) {
         dashBoardViewModel.filterMovieByGenreId(genreId: genreId)
     }
     

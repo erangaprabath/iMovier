@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ProfileSection: View {
-    @StateObject private var profileViewModel = ProfileViewModel()
+    @EnvironmentObject private var profileViewModel:ProfileViewModel
     @State private var profileData:ProfileModel? = nil
     var body: some View {
         VStack{
@@ -27,6 +27,16 @@ struct ProfileSection: View {
                     .scaledToFit()
                     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                     .frame(width: 40,height: 40)
+                VStack(alignment:.leading){
+                    Text("Hello, \(profileData?.name ?? "")")
+                        .font(.custom("Montserrat-Regular", size: 12))
+                        
+                        .foregroundStyle(Color.white)
+                       
+                    Text(profileData?.iso3166_1 ?? "")
+                        .font(.custom("Montserrat-Regular", size: 12))
+                        .foregroundStyle(Color.white)
+                }
                 Spacer()
                 Image(systemName: "text.alignleft")
                     .resizable()
@@ -37,15 +47,7 @@ struct ProfileSection: View {
                     .padding()
                     .background(Color.gray.opacity(0.1))
                     .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-//                VStack(alignment:.leading){
-//                    Text("\(profileData?.name ?? "")")
-//                        .font(.system(size: 12,weight: .bold,design: .rounded))
-//                        .foregroundStyle(Color.white)
-//                       
-//                    Text(profileData?.iso3166_1 ?? "")
-//                        .font(.system(size: 12,weight: .medium,design: .rounded))
-//                        .foregroundStyle(Color.white)
-//                }
+              
             }
         }.onReceive(profileViewModel.$profile, perform: { newValue in
             profileData = newValue

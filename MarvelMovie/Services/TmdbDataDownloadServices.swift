@@ -14,78 +14,46 @@ actor TmdbDataDownloadServices{
         self.networkManager = networkmanager
     }
     
-    func downloadAllFilmData(pageNo:Int) async -> Result<MovieModel,Error>{
-        let allMovies = networkEndpoint.getAllMovieListByPage(pageNo: pageNo, isAdult: true, includeVideo: true)
+    private func performRequest<T:Decodable>(for endPoint:networkEndpoint) async -> Result<T,APIError>{
         do {
-            let fetchData:MovieModel = try await networkManager.downloadData(endpoints: allMovies)
-            return .success(fetchData)
-        }catch{
-            return.failure(error)
-        }
-    }
-    func donwloadAllTvSeries(pageNo:Int) async -> Result<AllTvSeriesModel,Error>{
-        let allTvSeries = networkEndpoint.getAllTvSeriesListByPage(pageNo: pageNo, isAdult: true)
-        do{
-            let fetchData:AllTvSeriesModel = try await networkManager.downloadData(endpoints: allTvSeries)
+            let fetchData:T  = try await networkManager.downloadData(endpoints: endPoint)
             return.success(fetchData)
         }catch{
-            print(error)
-            return .failure(error)
+            return .failure(APIError.decodingError(error: error))
         }
+    }
+    
+    func downloadAllFilmData(pageNo:Int) async -> Result<MovieModel,APIError>{
+        let allMovies = networkEndpoint.getAllMovieListByPage(pageNo: pageNo, isAdult: true, includeVideo: true)
+        return await performRequest(for: allMovies)
+    }
+    func donwloadAllTvSeries(pageNo:Int) async -> Result<AllTvSeriesModel,APIError>{
+        let allTvSeries = networkEndpoint.getAllTvSeriesListByPage(pageNo: pageNo, isAdult: true)
+        return await performRequest(for: allTvSeries)
     }
     func dwonloadUsreDetails(userId:Int) async -> Result<ProfileModel,APIError>{
         let getUserEndPoint = networkEndpoint.getUserProfile(userId: userId)
-        do {
-            let fetchData:ProfileModel = try await networkManager.downloadData(endpoints: getUserEndPoint)
-            return .success(fetchData)
-        }catch{
-            return .failure(APIError.decodingError(error: error))
-        }
+        return await performRequest(for: getUserEndPoint)
     }
     func downloadMovieGenre() async -> Result<MovieGenreModel, APIError>{
         let movieGenreEndpoint = networkEndpoint.getMovieGenre
-        do{
-            let fetchData:MovieGenreModel = try await networkManager.downloadData(endpoints: movieGenreEndpoint)
-            return .success(fetchData)
-        }catch{
-            return .failure(APIError.decodingError(error: error))
-        }
+        return await performRequest(for: movieGenreEndpoint)
     }
     func downloadSingleMovieData(movieID:Int,isMovie:Bool) async -> Result<SingleMovieAndTvSeiresModel,APIError>{
-        let apiEndPoint = networkEndpoint.getMovieByMovieId(moiveID: movieID, isCredits: false, isMovie: isMovie)
-        do{
-            let fetchData:SingleMovieAndTvSeiresModel = try await networkManager.downloadData(endpoints: apiEndPoint)
-            return .success(fetchData)
-        }catch{
-            return.failure(APIError.decodingError(error: error))
-        }
+        let singleMoiveEndPoint = networkEndpoint.getMovieByMovieId(movieID: movieID, isCredits: false, isMovie: isMovie)
+        return await performRequest(for: singleMoiveEndPoint)
     }
     func downloadSingleMovieCastAndCrew(movieID:Int,isMoive:Bool) async -> Result<CastAndCrewModel,APIError>{
-        let apiEndPoint = networkEndpoint.getMovieByMovieId(moiveID: movieID, isCredits: true, isMovie: isMoive)
-        do{
-            let fetchData:CastAndCrewModel = try await networkManager.downloadData(endpoints: apiEndPoint)
-            return .success(fetchData)
-        }catch{
-            return.failure(APIError.decodingError(error: error))
-        }
+        let singleMoiveCrewEndPoint = networkEndpoint.getMovieByMovieId(movieID: movieID, isCredits: true, isMovie: isMoive)
+        return await performRequest(for: singleMoiveCrewEndPoint)
     }
     func downloadPopularMovieSet() async -> Result<MovieModel,APIError>{
-        let apiEndPoint = networkEndpoint.getPopularMovieList
-        do {
-            let fetchData:MovieModel  = try await networkManager.downloadData(endpoints: apiEndPoint)
-            return .success(fetchData)
-        }catch{
-            return.failure(APIError.decodingError(error: error))
-        }
-        
+        let popMovieEndPoint = networkEndpoint.getPopularMovieList
+        return await performRequest(for: popMovieEndPoint)
     }
     func uploadFavMovie(favMovieData:AddFavMovie) async -> Result<SuccessModel,APIError>{
-        let apiEdnPoint = networkEndpoint.setFavMovies(movieFav: favMovieData)
-        do{
-            let fetchData:SuccessModel = try await networkManager.downloadData(endpoints: apiEdnPoint)
-            return .success(fetchData)
-        }catch{
-            return.failure(APIError.decodingError(error: error))
-        }
+        let favMovieEndPoint = networkEndpoint.setFavMovies(movieFav: favMovieData)
+        return await performRequest(for: favMovieEndPoint)
     }
+  
 }

@@ -18,7 +18,7 @@ class ProfileViewModel:ObservableObject{
         Task{ await mapUserProfile() }
     }
     
-    func mapUserProfile() async{
+    private func mapUserProfile() async{
         Task{ @MainActor [weak self] in
             let profileData = await self?.profileData.dwonloadUsreDetails(userId: 21476694)
             switch profileData {

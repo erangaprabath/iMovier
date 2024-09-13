@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct MovieDashboardView: View {
-    @State private var currentIndex:Int? = 0
-    @State private var dashboardViewModel = DashboardViewModel()
+    @EnvironmentObject private var dashboardViewModel:DashboardViewModel
+    @ObservedObject var profileViewModel:ProfileViewModel
     @State private var movieData:[FilmCardDataModel] = []
     @State private var tvSeriesData:[FilmCardDataModel] = []
-    private let placeHolderData:MoviePlaceholder = MoviePlaceholder()
     @State private var singleMovieView:Bool = false
     @State private var selectedMoiveID:Int? = nil
     @State private var appearedPopMovieId:Int = 0
     @State private var isTvSeries:Bool = false
-    var isSearch:Bool = false
     @State private var searchText:String = ""
+    private let placeHolderData:MoviePlaceholder = MoviePlaceholder()
+    var isSearch:Bool = false
+
     var body: some View {
         VStack(alignment: .leading){
           ProfileSection()
+                .environmentObject(profileViewModel)
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity)
             MovieGenreView(dashboardViewModel: dashboardViewModel)
@@ -51,12 +53,14 @@ struct MovieDashboardView: View {
                 Image("background")
                     .resizable()
                     .ignoresSafeArea()
-                Color.black.opacity(0.97)
+                Color.black.opacity(0.9)
                 .ignoresSafeArea()
 //
             })
         .task {
-            dashboardViewModel.manageDataBinding()
+            if movieData.isEmpty{
+                dashboardViewModel.manageDataBinding()
+            }
         }
         .navigationDestination(isPresented: $singleMovieView) {
             SingleMovieView(movieId:selectedMoiveID ?? 0, isMovie: isTvSeries)
@@ -141,7 +145,7 @@ extension MovieDashboardView{
     }
 }
 #Preview {
-    MovieDashboardView()
+    MovieDashboardView(profileViewModel: ProfileViewModel())
 }
 
 

@@ -7,124 +7,97 @@
 
 import Foundation
 
-enum networkEndpoint:APIProtocol{
-    case getAllMovieListByPage(pageNo:Int,isAdult:Bool,includeVideo:Bool)
-    case getAllTvSeriesListByPage(pageNo:Int,isAdult:Bool)
-    case getUserProfile(userId:Int)
+enum networkEndpoint: APIProtocol {
+    case getAllMovieListByPage(pageNo: Int, isAdult: Bool, includeVideo: Bool)
+    case getAllTvSeriesListByPage(pageNo: Int, isAdult: Bool)
+    case getUserProfile(userId: Int)
     case getMovieGenre
-    case getMovieByMovieId(moiveID:Int,isCredits:Bool,isMovie:Bool)
+    case getMovieByMovieId(movieID: Int, isCredits: Bool, isMovie: Bool)
     case getPopularMovieList
-    case setFavMovies(movieFav:AddFavMovie)
+    case setFavMovies(movieFav: AddFavMovie)
+    case getFavMovies
     
-    var baseUrl: URL{
-        guard let baseUrl = URL(string:"https://api.themoviedb.org") else{ fatalError()}
+    var baseUrl: URL {
+        guard let baseUrl = URL(string: "https://api.themoviedb.org") else {
+            fatalError("Invalid base URL")
+        }
         return baseUrl
     }
     
-    var endPoint: String{
+    var endPoint: String {
         switch self {
             case .getAllMovieListByPage:
                 return "/3/discover/movie"
             case .getAllTvSeriesListByPage:
                 return "/3/discover/tv"
-            case .getUserProfile(userId: let userId):
+            case .getUserProfile(let userId):
                 return "/3/account/\(userId)"
             case .getMovieGenre:
                 return "/3/genre/movie/list"
-            case .getMovieByMovieId(let moiveID,let isCredits,let isMovie):
-                switch isMovie{
-                    case true:
-                        switch isCredits{
-                            case true:
-                                return "/3/tv/\(moiveID)/credits"
-                            case false:
-                                return "/3/tv/\(moiveID)"
-                        }
-                    case false:
-                        switch isCredits{
-                            case true:
-                                return "/3/movie/\(moiveID)/credits"
-                            case false:
-                                return "/3/movie/\(moiveID)"
-                                
-                        }
-                }
-                
+            case .getMovieByMovieId(let movieID, let isCredits, let isMovie):
+                return isMovie
+                    ? (isCredits ? "/3/tv/\(movieID)/credits" : "/3/tv/\(movieID)")
+                    : (isCredits ? "/3/movie/\(movieID)/credits" : "/3/movie/\(movieID)")
             case .getPopularMovieList:
                 return "/3/movie/popular"
             case .setFavMovies:
-                return"/3/account/\(21476694)/favorite"
+                return "/3/account/\(21476694)/favorite"
+            case .getFavMovies:
+                return "/3/account/\(21476694)/favorite/movies"
         }
     }
     
-    var requestMethod: HttpMethod{
+    var requestMethod: HttpMethod {
         switch self {
-            case .getAllMovieListByPage:
-                return .get
-            case .getAllTvSeriesListByPage:
-                return .get
-            case .getUserProfile:
-                return.get
-            case .getMovieGenre:
-                return.get
-            case .getMovieByMovieId:
-                return .get
-            case .getPopularMovieList:
-                return .get
             case .setFavMovies:
                 return .post
+            default:
+                return .get
         }
     }
     
-    var headers: [String : String]?{
-        return [
-            "content-type": "application/json",
-            "Authorization" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MmU4MjI2MzY4ZTRmYWJiNmQ5OWNmNWEyNTI2YzlkYSIsIm5iZiI6MTcyNTEwMzM5Mi45ODUzNDIsInN1YiI6IjY2ZDJmYzAxMzY1MDk3YTQ1YzAwNTJiZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.neHf13BO1FK9ZUo1FsbeEHQsBEDzSayhhySYHvC7Ygk",
-            "accept" : "application/json"
+    var headers: [String: String]? {
+        [
+            "Content-Type": "application/json",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MmU4MjI2MzY4ZTRmYWJiNmQ5OWNmNWEyNTI2YzlkYSIsIm5iZiI6MTcyNTEwMzM5Mi45ODUzNDIsInN1YiI6IjY2ZDJmYzAxMzY1MDk3YTQ1YzAwNTJiZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.neHf13BO1FK9ZUo1FsbeEHQsBEDzSayhhySYHvC7Ygk",
+            "Accept": "application/json"
         ]
     }
     
-    var parameters: [String : Any]?{
+    var parameters: [String: Any]? {
         switch self {
-            case .getAllMovieListByPage(pageNo: let pageNo, isAdult: let isAdult, includeVideo: let isVideo):
+            case .getAllMovieListByPage(let pageNo, let isAdult, let includeVideo):
                 return [
-                    "include_adult" : isAdult,
-                    "include_video" :isVideo,
-                    "language"  : "en-US",
-                    "page" : pageNo,
-                    "sort_by" : "popularity.desc"
+                    "include_adult": isAdult,
+                    "include_video": includeVideo,
+                    "language": "en-US",
+                    "page": pageNo,
+                    "sort_by": "popularity.desc"
                 ]
-            case .getAllTvSeriesListByPage(pageNo: let pageNo, isAdult: let isAdult):
+            case .getAllTvSeriesListByPage(let pageNo, let isAdult):
                 return [
-                    "include_adult":isAdult,
-                    "include_null_first_air_dates":false,
-                    "language":"en-US",
-                    "page":pageNo,
-                    "sort_by":"popularity.desc"
+                    "include_adult": isAdult,
+                    "include_null_first_air_dates": false,
+                    "language": "en-US",
+                    "page": pageNo,
+                    "sort_by": "popularity.desc"
                 ]
             case .getUserProfile:
                 return nil
             case .getMovieGenre:
-                return[
-                    "language" : "en"
-                ]
-        case .getMovieByMovieId:
-            return[
-                "language":"en-US"
-            
-            ]
+                return ["language": "en"]
+            case .getMovieByMovieId:
+                return ["language": "en-US"]
             case .getPopularMovieList:
                 return nil
-            case .setFavMovies(movieFav: let movieListOfFav):
+            case .setFavMovies(let movieFav):
                 return [
-                    
-                    "media_type" : movieListOfFav.mediaType,
-                    "media_id" : movieListOfFav.mediaID,
-                    "favorite" : movieListOfFav.favorite
-                
+                    "media_type": movieFav.mediaType,
+                    "media_id": movieFav.mediaID,
+                    "favorite": movieFav.favorite
                 ]
+            case .getFavMovies:
+                return nil
         }
     }
-    
-    
 }
