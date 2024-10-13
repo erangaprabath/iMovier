@@ -37,6 +37,7 @@ class DashboardViewModel:ObservableObject{
         let task = Task{
             await mapMovies()
             await mapTvSeries()
+          
         }
         viewIsLoaded = true
         tasks.append(task)
@@ -45,10 +46,14 @@ class DashboardViewModel:ObservableObject{
     func loadMoreData(isTvSeries:Bool){
         if isTvSeries{
             moviePageNo = moviePageNo + 1
-            Task{ await mapMovies() }
+            Task{
+                await mapMovies()
+            }
         }else{
             tvSeriesPageNo = tvSeriesPageNo + 1
-            Task{ await  mapTvSeries() }
+            Task{
+                await  mapTvSeries()
+            }
         }
     }
 
@@ -64,6 +69,7 @@ class DashboardViewModel:ObservableObject{
                     }else{
                         self.movieDataSet.append(contentsOf: newMovies)
                     }
+                    print(movieDataSet)
                 case .failure(let failure):
                     viewIsLoaded = false
                     self.errors = failure
@@ -88,7 +94,7 @@ class DashboardViewModel:ObservableObject{
         }
     }
     
-    private func mapTvSeriesViewData(recivedData: AllTvSeriesModelResult) -> FilmCardDataModel{
+    func mapTvSeriesViewData(recivedData: AllTvSeriesModelResult) -> FilmCardDataModel{
         FilmCardDataModel(
             id: recivedData.id,
             posterPath: recivedData.posterPath ?? "",
@@ -121,7 +127,7 @@ class DashboardViewModel:ObservableObject{
         self.genreId = genreId
         let filtedMovies = self.movieDataSet.filter({$0.genreIds.contains(genreId)})
         _ = self.tvSeriesDataSet.filter({$0.genreIds.contains(genreId)})
-        if filtedMovies.isEmpty{
+        if filtedMovies.isEmpty || filtedMovies.count < 5{
             loadMoreData(isTvSeries: true)
         }
         self.movieDataSet = filtedMovies

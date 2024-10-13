@@ -10,7 +10,7 @@ import Kingfisher
 
 struct SingleMovieView: View {
     
-    @StateObject private var singleMovieViewModel = SingleMovieViewModel()
+    @StateObject private var singleMovieViewModel:SingleMovieViewModel
     @State private var textExpand:Bool = false
     @State private var viewExpand:Bool = false
     @State private var animate:Bool = false
@@ -21,9 +21,10 @@ struct SingleMovieView: View {
     private var movieId:Int
     private var isMovie:Bool
     
-    init(movieId:Int,isMovie:Bool){
+    init(movieId:Int,isMovie:Bool,networkManger:NetworkManager<networkEndpoint>,tmdbServiceLayer:TmdbDataDownloadServices){
         self.movieId = movieId
         self.isMovie = isMovie
+        _singleMovieViewModel = StateObject(wrappedValue: SingleMovieViewModel(networkManager: networkManger, tmdbServiceLayer: tmdbServiceLayer))
     }
     var body: some View {
         ZStack (alignment: .topLeading){
@@ -259,5 +260,5 @@ extension SingleMovieView{
 }
 
 #Preview {
-    SingleMovieView(movieId: 533535, isMovie: false)
+    SingleMovieView(movieId: 533535, isMovie: false, networkManger: NetworkManager(), tmdbServiceLayer: TmdbDataDownloadServices(networkmanager: NetworkManager()))
 }

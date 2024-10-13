@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 struct MovieGenreModel: Codable {
     let genres: [Genre]
 }

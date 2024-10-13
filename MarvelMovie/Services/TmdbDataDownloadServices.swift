@@ -55,5 +55,13 @@ actor TmdbDataDownloadServices{
         let favMovieEndPoint = networkEndpoint.setFavMovies(movieFav: favMovieData)
         return await performRequest(for: favMovieEndPoint)
     }
+    func getFavMovieList() async -> Result<FavMovieModel,APIError>{
+        let favMovieListEndPoint = networkEndpoint.getFavMovies
+        return await performRequest(for: favMovieListEndPoint)
+    }
   
+}
+
+struct error:Error{
+    
 }

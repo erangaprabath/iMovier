@@ -44,6 +44,7 @@ enum networkEndpoint: APIProtocol {
                 return "/3/account/\(21476694)/favorite"
             case .getFavMovies:
                 return "/3/account/\(21476694)/favorite/movies"
+            
         }
     }
     

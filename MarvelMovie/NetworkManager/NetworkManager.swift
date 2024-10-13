@@ -9,7 +9,7 @@ import Foundation
 
 class NetworkManager <ApiProtocolType:APIProtocol>:APIClientHook{
     
-    func handelServices<T:Decodable>(_ apiProtocol: ApiProtocolType) async throws -> T {
+    internal func handelServices<T:Decodable>(_ apiProtocol: ApiProtocolType) async throws -> T {
         guard var requestUrl = URLComponents(string:  apiProtocol.baseUrl.absoluteString + apiProtocol.endPoint) else {
             throw APIError.invalidURL
         }
@@ -33,9 +33,7 @@ class NetworkManager <ApiProtocolType:APIProtocol>:APIClientHook{
             }catch{
                 throw APIError.requestFailed
             }
-            print(parameters)
         }
-        print(request)
       
         do{
             let (data,response) = try await URLSession.shared.data(for: request)

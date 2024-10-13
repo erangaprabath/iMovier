@@ -10,29 +10,34 @@ import SwiftUI
 struct ApplicationBase: View {
     @EnvironmentObject private var appStateManager:AppState
     @StateObject private var dashboardViewModel = DashboardViewModel()
-    @StateObject private var profileViewModel = ProfileViewModel()
+
    
     var body: some View {
-        ZStack(alignment:.bottom){
+        VStack(){
             switch appStateManager.selectedTab{
                 case "Home":
-                    MovieDashboardView(profileViewModel: profileViewModel)
+                    MovieDashboardView()
+                        .padding(.bottom)
                         .environmentObject(dashboardViewModel)
-                        .transition(.move(edge: .leading))
-                case "Search":
-                    MovieDashboardView(profileViewModel: profileViewModel)
-                        .environmentObject(dashboardViewModel)
-                        .transition(.move(edge: .leading))
+               
+//                case "Search":
+//                    MovieDashboardView()
+//                        .environmentObject(dashboardViewModel)
+//                        .transition(.move(edge: .leading))
+                case "Profile":
+                    ProfileMainScreen()
+                      
                 default:
-                    MovieDashboardView(profileViewModel: profileViewModel)
-                        .environmentObject(dashboardViewModel)
-                        .transition(.move(edge: .leading))
+                    Rectangle()
+                        .frame(maxHeight: .infinity)
+                
+                 
             }
        
             BottomNavigationbar()
                 .environmentObject(appStateManager)
                 .frame(maxWidth: .infinity)
-                .padding(.top)
+           
                 .background(Color.black)
         }.background(Color.black)
     }

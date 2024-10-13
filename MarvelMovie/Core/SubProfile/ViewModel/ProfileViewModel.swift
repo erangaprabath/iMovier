@@ -8,19 +8,20 @@
 import Foundation
 
 class ProfileViewModel:ObservableObject{
-    
-    private let networkManger = NetworkManager<networkEndpoint>()
-    private let profileData:TmdbDataDownloadServices
+
+    private let dashboradViewModel:DashboardViewModel
     @Published var profile:ProfileModel? = nil
     
-    init() {
-        self.profileData = TmdbDataDownloadServices(networkmanager: networkManger)
-        Task{ await mapUserProfile() }
+    init(dashboardViewModel:DashboardViewModel) {
+        self.dashboradViewModel = dashboardViewModel
+        _ = Task{
+            await mapUserProfile()
+        }
     }
     
     private func mapUserProfile() async{
         Task{ @MainActor [weak self] in
-            let profileData = await self?.profileData.dwonloadUsreDetails(userId: 21476694)
+            let profileData = await self?.dashboradViewModel.allFilmService.dwonloadUsreDetails(userId: 21476694)
             switch profileData {
                 case .success(let profileData):
                     self?.profile = profileData

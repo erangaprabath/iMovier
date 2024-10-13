@@ -9,14 +9,16 @@ import Foundation
 
 final class SingleMovieViewModel:ObservableObject{
     
-    private let networkManager = NetworkManager<networkEndpoint>()
+    let networkManager:NetworkManager<networkEndpoint>
     private let getSingleMovieService:TmdbDataDownloadServices
     @Published private(set) var movieMainDeitails:SingleMovieAndTvSeiresModel? = nil
     @Published private(set) var movieCastAndCrew:CastAndCrewModel? = nil
     private var tasks:[Task<Void ,Never>] = []
     
-    init() {
-        self.getSingleMovieService = TmdbDataDownloadServices(networkmanager: networkManager)
+    init(networkManager:NetworkManager<networkEndpoint>,tmdbServiceLayer:TmdbDataDownloadServices) {
+        self.networkManager = networkManager
+        self.getSingleMovieService = tmdbServiceLayer
+       
     }
     func cancelTask(){
         tasks.forEach({$0.cancel()})
