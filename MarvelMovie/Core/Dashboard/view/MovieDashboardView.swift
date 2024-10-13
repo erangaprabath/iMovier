@@ -8,23 +8,31 @@
 import SwiftUI
 
 struct MovieDashboardView: View {
-    @State private var currentIndex:Int? = 0
-    @State private var dashboardViewModel = DashboardViewModel()
+    @EnvironmentObject private var dashboardViewModel:DashboardViewModel
+    @StateObject private var profileViewModel:ProfileViewModel
     @State private var movieData:[FilmCardDataModel] = []
     @State private var tvSeriesData:[FilmCardDataModel] = []
-    private let placeHolderData:MoviePlaceholder = MoviePlaceholder()
     @State private var singleMovieView:Bool = false
     @State private var selectedMoiveID:Int? = nil
     @State private var appearedPopMovieId:Int = 0
     @State private var isTvSeries:Bool = false
+    @State private var searchText:String = ""
+    @State private var sideMenuOpen:Bool = false
+    private let placeHolderData:MoviePlaceholder = MoviePlaceholder()
+    var isSearch:Bool = false
+    
+    init(){
+        _profileViewModel = StateObject(wrappedValue: ProfileViewModel(dashboardViewModel: DashboardViewModel()))
+    }
     var body: some View {
         VStack(alignment: .leading){
-          ProfileSection()
+            ProfileSection(sideMenuOpen: $sideMenuOpen)
+                .environmentObject(profileViewModel)
                 .padding(.horizontal)
                 .frame(maxWidth: .infinity)
             MovieGenreView(dashboardViewModel: dashboardViewModel)
                 .padding(5)
-         
+            
             List{
                 Section(section: "Popular")
                     .listRowBackground(Color.clear)
@@ -39,27 +47,31 @@ struct MovieDashboardView: View {
                 tvSeriesSection
             }.scrollIndicators(.never)
                 .listStyle(.plain)
-               
+                .searchable(text: $searchText,prompt: "Search")
+                .foregroundStyle(Color.white)
             
-        }.background(
-            ZStack{ 
-               
-                Image("background")
-                    .resizable()
-                    .ignoresSafeArea()
-                Color.black.opacity(0.97)
-                .ignoresSafeArea()
-//
+            
+        }.disabled(sideMenuOpen ? true : false)
+            .background(
+                ZStack{
+                    Image("background")
+                        .resizable()
+                        .ignoresSafeArea()
+                    Color.black.opacity(0.9)
+                        .ignoresSafeArea()
+                })
+            .task {
+                if movieData.isEmpty{
+                    dashboardViewModel.manageDataBinding()
+                }
+            }
+            .navigationDestination(isPresented: $singleMovieView) {
+                SingleMovieView(movieId:selectedMoiveID ?? 0, isMovie: isTvSeries,networkManger: dashboardViewModel.networkManager, tmdbServiceLayer: dashboardViewModel.allFilmService)
+            }.onDisappear(perform: {
+                dashboardViewModel.cancelTasks()
             })
-        .task {
-            dashboardViewModel.manageDataBinding()
-        }
-        .navigationDestination(isPresented: $singleMovieView) {
-            SingleMovieView(movieId:selectedMoiveID ?? 0, isMovie: isTvSeries)
-        }.onDisappear(perform: {
-            dashboardViewModel.cancelTasks()
-        })
-       
+        
+        
     }
 }
 extension MovieDashboardView{
@@ -67,7 +79,7 @@ extension MovieDashboardView{
             VStack{
                 ScrollView(.horizontal){
                     LazyHStack(){
-                        ForEach(movieData,id:\.id){ singleMovie in
+                        ForEach(searchResultOfMovies,id:\.id){ singleMovie in
                             FilmCardView(singleMovie:singleMovie)
                                
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
@@ -98,7 +110,7 @@ extension MovieDashboardView{
             VStack{
                 ScrollView(.horizontal){
                     LazyHStack{
-                        ForEach(tvSeriesData,id:\.id){ singleMovie in
+                        ForEach(searchResultOfTvSeries,id:\.id){ singleMovie in
                             FilmCardView(singleMovie:singleMovie)
                                 .redacted(reason: !dashboardViewModel.viewIsLoaded ? .placeholder :.privacy)
                                 .onTapGesture {
@@ -135,9 +147,24 @@ extension MovieDashboardView{
                
         }.scrollClipDisabled()
     }
+    private var searchResultOfMovies:[FilmCardDataModel]{
+        if searchText.isEmpty{
+            return movieData
+        }else{
+            return movieData.filter{$0.title.contains(searchText)}
+        }
+    }
+    private var searchResultOfTvSeries:[FilmCardDataModel]{
+        if searchText.isEmpty{
+            return tvSeriesData
+        }else{
+            return tvSeriesData.filter{$0.title.contains(searchText)}
+        }
+    }
 }
 #Preview {
     MovieDashboardView()
+        .environmentObject(DashboardViewModel())
 }
 
 

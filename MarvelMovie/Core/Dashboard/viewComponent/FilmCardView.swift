@@ -46,6 +46,7 @@ extension FilmCardView{
     private func cardViewMainImage(cornerRadius:CGFloat,heigth:CGFloat,width:CGFloat) -> some View{
         ZStack{
             KFImage(URL(string: "https://image.tmdb.org/t/p/w185\(singleMovie.posterPath)"))
+                .cacheOriginalImage()
                 .resizable()
                 .frame(width: width,height: heigth)
                 .background(Color.gray)
@@ -105,5 +106,5 @@ extension FilmCardView{
 
 #Preview {
 //    FilmCardView(singleMovie: <#MoviewResult#>, imageUrl: "https://i.redd.it/i6fuvkjuga7c1.jpeg", random: true)
-    MovieDashboardView()
+//    MovieDashboardView(dashBoardViewModel: DashboardViewModel())
 }

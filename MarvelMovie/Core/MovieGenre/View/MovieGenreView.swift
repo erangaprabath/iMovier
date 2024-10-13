@@ -11,6 +11,7 @@ struct MovieGenreView: View {
     @StateObject private var movieGenreViewModel:MovieGenreViewModel
     @State private var movieGenre:MovieGenreModel? = nil
     @State private var selected:Int = 1
+     
     init(dashboardViewModel:DashboardViewModel){
         _movieGenreViewModel = StateObject(wrappedValue: MovieGenreViewModel(dashBoardViewModel: dashboardViewModel))
     }
@@ -33,7 +34,6 @@ struct MovieGenreView: View {
                     }
                 } .scrollTargetLayout()
             }.scrollIndicators(.hidden)
-                  
                     .scrollTargetBehavior(.paging)
             })
         
@@ -50,7 +50,7 @@ extension MovieGenreView{
             Text(genre)
                 .font(.system(size: 13,weight: .regular,design: .rounded))
                 .foregroundStyle(isSelect ? Color.mint : Color.gray)
-        }
+        }.padding(5)
 //            .background(isSelect ? Color.mint.opacity(0.99) : Color.mainBackground.opacity(0.8))
 //        .clipShape(RoundedRectangle(cornerRadius: 20))
     }

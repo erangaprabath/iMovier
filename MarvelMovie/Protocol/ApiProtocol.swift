@@ -27,6 +27,7 @@ enum ApiProtocol {
 enum HttpMethod:String{
     case get = "GET"
     case post = "POST"
+    case delete = "DELETE"
 }
 
 enum APIError: Error {

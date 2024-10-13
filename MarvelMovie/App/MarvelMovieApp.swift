@@ -11,8 +11,9 @@ import SwiftUI
 struct MarvelMovieApp: App {
     var body: some Scene {
         WindowGroup {
-           ContentView()
+            ContentView()
                 .preferredColorScheme(.light)
         }
     }
 }
+ 
