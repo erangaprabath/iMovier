@@ -41,6 +41,7 @@
 		52769CC22CAC335700907A70 /* FavMovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52769CC12CAC335700907A70 /* FavMovieModel.swift */; };
 		52769CC32CAC343100907A70 /* FavMovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52769CC12CAC335700907A70 /* FavMovieModel.swift */; };
 		52769CC62CAC399100907A70 /* SingleFavMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52769CC52CAC399100907A70 /* SingleFavMovieView.swift */; };
+		527FAA212CBBBDD600A7AB5F /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527FAA202CBBBDD600A7AB5F /* VideoPlayerView.swift */; };
 		52B400082CA6E206007AB1F0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B400072CA6E206007AB1F0 /* WidgetKit.framework */; };
 		52B4000A2CA6E206007AB1F0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B400092CA6E206007AB1F0 /* SwiftUI.framework */; };
 		52B4001B2CA6E207007AB1F0 /* PopularMoviesWithActorsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 52B400052CA6E206007AB1F0 /* PopularMoviesWithActorsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -152,6 +153,7 @@
 		52769CBF2CAC311B00907A70 /* ProfileScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenViewModel.swift; sourceTree = "<group>"; };
 		52769CC12CAC335700907A70 /* FavMovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavMovieModel.swift; sourceTree = "<group>"; };
 		52769CC52CAC399100907A70 /* SingleFavMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleFavMovieView.swift; sourceTree = "<group>"; };
+		527FAA202CBBBDD600A7AB5F /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 		52B400052CA6E206007AB1F0 /* PopularMoviesWithActorsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PopularMoviesWithActorsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B400072CA6E206007AB1F0 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		52B400092CA6E206007AB1F0 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -291,6 +293,7 @@
 		5204056C2C832D0B009B56FE /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				527FAA1D2CBBBDAA00A7AB5F /* VideoPlayer */,
 				5268733A2C9B194B00F4F0A9 /* MainProfile */,
 				5253C38A2C8B664B0062181F /* CommonView */,
 				52C6B92B2C8367780081CE63 /* Dashboard */,
@@ -463,6 +466,30 @@
 				52769CC52CAC399100907A70 /* SingleFavMovieView.swift */,
 			);
 			path = ViewComponent;
+			sourceTree = "<group>";
+		};
+		527FAA1D2CBBBDAA00A7AB5F /* VideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				527FAA1F2CBBBDC100A7AB5F /* ViewModel */,
+				527FAA1E2CBBBDB800A7AB5F /* View */,
+			);
+			path = VideoPlayer;
+			sourceTree = "<group>";
+		};
+		527FAA1E2CBBBDB800A7AB5F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				527FAA202CBBBDD600A7AB5F /* VideoPlayerView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		527FAA1F2CBBBDC100A7AB5F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		52B400062CA6E206007AB1F0 /* Frameworks */ = {
@@ -819,6 +846,7 @@
 				52C6B9432C838B8F0081CE63 /* TmdbDataDownloadServices.swift in Sources */,
 				5268C6DB2C84C6750043BE29 /* MovieGenreModel.swift in Sources */,
 				52E102762C8C9EE9005DF428 /* BottomNavigationbar.swift in Sources */,
+				527FAA212CBBBDD600A7AB5F /* VideoPlayerView.swift in Sources */,
 				5268C6E12C84CB100043BE29 /* MovieGenreViewModel.swift in Sources */,
 				5253C3822C8B2E830062181F /* SingleMovieAndTvSeiresModel.swift in Sources */,
 				52769CC62CAC399100907A70 /* SingleFavMovieView.swift in Sources */,
